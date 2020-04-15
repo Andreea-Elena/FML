@@ -13,12 +13,16 @@
   "author": "AndreeaBodea",
   "license": "ISC",
   "dependencies": {
+    "@types/hapi__joi": "^16.0.12",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "joi": "^14.3.1",
+    "joi-json": "^4.0.0",
     "mysql": "github:mysqljs/mysql",
     "mysql2": "^2.1.0",
     "passport": "^0.4.0",
+    "regex": "^0.1.1",
     "sequelize": "^5.21.5"
   },
   "devDependencies": {
