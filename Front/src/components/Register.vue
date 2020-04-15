@@ -1,14 +1,18 @@
 <template>
-  <div>
-      <h1>Register</h1>
-      <input type="email" name="email" placeholder="email" v-model="username"/>
+  <v-layout column>
+  <div class="pl-4 pr-4 pt-2 pb-2">
+    <v-toolbar flat dense class="cyan" dark>
+      <v-toolbar-title>Register</v-toolbar-title>
+    </v-toolbar>
+      <v-text-field type="username" name="username" label="Username" v-model="username"/>
       <br>
-      <input type="password" name="password" placeholder="password" v-model="password"/>
+      <v-text-field type="password" name="password" label="Password" v-model="password"/>
       <br>
       <div v-html="error" class="error"/>
       <br>
-      <button @click="register">Register</button>
+      <v-btn class="cyan" @click="register">Register</v-btn>
   </div>
+  </v-layout>
 </template>
 
 <script>
