@@ -1,0 +1,27 @@
+{
+  "name": "keepintouchapi",
+  "version": "1.0.0",
+  "description": "Aplicatie web pentru comunicare si socializare la nivelul unei promotii de absolventi",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "webtech"
+  ],
+  "author": "AndreeaBodea",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "github:mysqljs/mysql",
+    "mysql2": "^2.1.0",
+    "passport": "^0.4.0",
+    "sequelize": "^5.21.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

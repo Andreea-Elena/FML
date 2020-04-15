@@ -1,0 +1,12 @@
+{
+    "development": {
+        "database": {
+            "username": "root",
+            "password": "",
+            "databasename": "keepintouchapp",
+            "host": "localhost",
+            "dialect": "mysql"
+        },
+        "port": 8080
+    }
+}
