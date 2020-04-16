@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Register from '@/components/Register'
+import AppHome from '@/components/AppHome'
+import AppLogin from '@/components/AppLogin'
+import AppRegister from '@/components/AppRegister'
 
 Vue.use(Router)
 
@@ -9,13 +10,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'AppHome',
+      component: AppHome
+    },
+    {
+      path: '/login',
+      name: 'AppLogin',
+      component: AppLogin
     },
     {
       path: '/register',
-      name: 'Register',
-      component: Register
+      name: 'AppRegister',
+      component: AppRegister
     }
   ]
 })
