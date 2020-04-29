@@ -2,15 +2,15 @@ const UserDetailsService=require("../services/userDetailsService");
 
 const createDetails = async(req,res, next)=>{
     const user=req.body;
-    if(user.FirstName && user.LastName){
+    try{
         await UserDetailsService.create(user);
         res.status(201).send({
             message: "User Details successfully added!"
         });
     }
-    else{
+    catch{
         res.status(400).send({
-            message: "Invalid user details!"
+            message: "Phone or email already exist"
         });
     }
 };

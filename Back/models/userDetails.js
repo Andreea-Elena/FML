@@ -4,11 +4,14 @@ module.exports = (sequelize, DataTypes) => {
         LastName: DataTypes.STRING,
         email: {
            type: DataTypes.STRING,
-           unique: true
+           unique: true,
+           allowNull: false
+           
         },
         phone: {
             type: DataTypes.STRING,
-            unique: true
+            unique: true,
+            allowNull: false
         },
         facebook: DataTypes.STRING,
         registeredAt: DataTypes.DATE,

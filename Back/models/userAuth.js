@@ -7,6 +7,5 @@ module.exports = (sequelize, DataTypes) => {
         },
         password: DataTypes.STRING,
         idRole: DataTypes.INTEGER,
-        userDetId: DataTypes.INTEGER
     });
 };

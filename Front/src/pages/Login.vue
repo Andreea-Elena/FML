@@ -1,20 +1,32 @@
 <template>
   <q-card>
-    <q-form>
+    <q-form
+      ref="form"
+      @submit="$refs.form.validate()"
+      onsubmit="return false">
       <h4 style="text-align: center">
         Connect to your KIT account
       </h4>
       <q-input
-      filled
+        filled
         label="Username"
         type="text"
         name="username"
         v-model="username"
-        :rules="[val => !!val || 'Field is required']"
+        :rules="[val => !!val || 'Field is required',
+         val => val.length > 5 || 'Username must have at least 5 characters']"
       >
       </q-input>
-      <q-input filled :type="isPwd ? 'password' : 'text'" :rules="[val => !!val || 'Field is required']" label="Password"
-        v-model="password">
+      <q-input
+        filled
+        :type="isPwd ? 'password' : 'text'"
+        :rules="[
+          val => !!val || 'Field is required',
+          val => val.length >= 8 || 'Password must have at least 8 characters'
+        ]"
+        label="Password"
+        v-model="password"
+      >
         <template v-slot:append>
           <q-icon
             :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -24,8 +36,10 @@
         </template>
       </q-input>
 
+      <div v-html="error" class="error" />
+
       <div class="buttons">
-        <q-btn color="primary" @click="submit" label="Sign up" />
+        <q-btn type="submit" color="primary" @click="submit" label="Sign up" />
       </div>
 
       <q-tabs
@@ -39,16 +53,31 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  data (){
-    return{
+  data() {
+    return {
       isPwd: true,
       username: null,
-      password: null
-    }
+      password: null,
+      error:null
+    };
   },
-  methods:{
-    submit(){
+  methods: {
+    async submit() {
+      this.error="";
+      await axios
+          .get("http://localhost:8080/api/getuserlogin/" + this.username)
+          .then(response => (this.flag = response.data.password));
+          if(this.flag){
+            if(this.flag===this.password){
+
+            }else{
+              this.error="Password isn't correct!"
+            }            
+          }else{
+            this.error="User doesn't exist";
+          }
 
     }
   }
@@ -71,5 +100,8 @@ export default {
 .q-form {
   margin-left: 10%;
   margin-right: 10%;
+}
+.error{
+  color: red;
 }
 </style>
