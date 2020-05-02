@@ -9,9 +9,10 @@
       </q-toolbar>
 
       <q-tabs align="right">
-        <q-route-tab to="/" label="Home" />
-        <q-route-tab to="/register" label="Register" />
-        <q-route-tab to="/login" label="Login" />
+        <q-route-tab v-if="!loggedIn" to="/" label="Home" />
+        <q-route-tab v-if="!loggedIn" to="/register" label="Register" />
+        <q-route-tab v-if="!loggedIn" to="/login" label="Login" />
+        <q-route-tab v-if="loggedIn" to="/logout" label="Logout" />
       </q-tabs>
     </q-header>
 
@@ -34,6 +35,11 @@
 export default {
   data () {
     return {
+    }
+  },
+  computed:{
+    loggedIn(){
+      return this.$store.getters['appUtils/loggedIn']
     }
   }
 }

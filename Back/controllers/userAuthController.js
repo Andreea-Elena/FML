@@ -1,4 +1,5 @@
 const UserAuthService=require("../services/userAuthService");
+const jwt=require('jsonwebtoken');
 
 const createUser = async(req,res, next)=>{
     const user=req.body;
@@ -25,8 +26,19 @@ const getUser= async(req,res)=>{
 const getUser1=async(req, res)=>{
     const username=req.params.username;
     if(username){
+        try{
         const user=await UserAuthService.getUserByUsername(username);
-        res.status(200).send(user);
+        if(user)
+        jwt.sign({user}, 'accesstoken',(err,accesstoken)=>{
+            res.status(200).send({
+                username: user.username,
+                password: user.password,
+                access_token: accesstoken
+            });
+        })
+    }catch(err){
+        res.status(401).send(err);
+    }
     }
 };
 

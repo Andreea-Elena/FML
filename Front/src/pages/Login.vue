@@ -1,9 +1,6 @@
 <template>
   <q-card>
-    <q-form
-      ref="form"
-      @submit="$refs.form.validate()"
-      onsubmit="return false">
+    <q-form ref="form" @submit="$refs.form.validate()" onsubmit="return false">
       <h4 style="text-align: center">
         Connect to your KIT account
       </h4>
@@ -13,8 +10,10 @@
         type="text"
         name="username"
         v-model="username"
-        :rules="[val => !!val || 'Field is required',
-         val => val.length > 5 || 'Username must have at least 5 characters']"
+        :rules="[
+          val => !!val || 'Field is required',
+          val => val.length > 5 || 'Username must have at least 5 characters'
+        ]"
       >
       </q-input>
       <q-input
@@ -55,29 +54,28 @@
 <script>
 import axios from "axios";
 export default {
+  name:'login',
   data() {
     return {
       isPwd: true,
-      username: null,
-      password: null,
-      error:null
+      username: '',
+      password: '',
+      error: null
     };
   },
   methods: {
     async submit() {
-      this.error="";
-      await axios
-          .get("http://localhost:8080/api/getuserlogin/" + this.username)
-          .then(response => (this.flag = response.data.password));
-          if(this.flag){
-            if(this.flag===this.password){
-
-            }else{
-              this.error="Password isn't correct!"
-            }            
-          }else{
-            this.error="User doesn't exist";
-          }
+      this.error = "";
+          console.log(this.$store)
+          this.$store.dispatch('appUtils/retrieveToken',{
+            username: this.username,
+            password: this.password
+          }).then(response =>{
+              if(this.error=="")
+              this.$router.push({ name: "homepage" }); 
+          }).catch(error=>{
+            this.error=error.message
+          })
 
     }
   }
@@ -101,7 +99,7 @@ export default {
   margin-left: 10%;
   margin-right: 10%;
 }
-.error{
+.error {
   color: red;
 }
 </style>
