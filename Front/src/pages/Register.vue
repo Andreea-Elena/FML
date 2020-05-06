@@ -1,5 +1,6 @@
 <template>
-  <q-card>
+<q-page style="background-color:#42455a" class="vertical-middle">
+  <q-card class="absolute-center">
     <h4 style="text-align: center">
       Register
     </h4>
@@ -185,6 +186,7 @@
       </q-dialog>
     </q-form>
   </q-card>
+</q-page>
 </template>
 
 <script>
@@ -252,10 +254,11 @@ export default {
 <style scoped>
 .q-card {
   padding: 15px;
-  width: 30%;
-  margin-left: 35%;
+  width: 40%;
+  /* margin-left: 35%;
   margin-top: 2%;
-  margin-bottom: 2%;
+  margin-bottom: 2%; */
+  align-items: center;
 }
 .buttons {
   margin-top: 10%;

@@ -13,13 +13,14 @@ router.post("/user/delete/:id", deleteUser);
 
 
 const {
-    createDetails, getDetails, updateDetails, getDetailsByAuthId
+    createDetails, getDetails, updateDetails, getDetailsByAuthId, getDetailsByAuthUsername
 } = require("../controllers/userDetailsController");
 
 router.post("/adddetails", createDetails);
 router.get("/getdetails/:id", getDetails);
 router.put("/user/update/:id", updateDetails);
 router.get("/getdetails/auth/:id", getDetailsByAuthId);
+router.get("/getdetails/authUser/:username", getDetailsByAuthUsername)
 
 const {
     createPost, getPost, updatePost, deletePost

@@ -1,5 +1,6 @@
 <template>
-  <q-card>
+<q-page style="background-color:#42455a" class="vertical-middle">
+  <q-card class="absolute-center">
     <q-form ref="form" @submit="$refs.form.validate()" onsubmit="return false">
       <h4 style="text-align: center">
         Connect to your KIT account
@@ -49,34 +50,36 @@
       </q-tabs>
     </q-form>
   </q-card>
+</q-page>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  name:'login',
+  name: "login",
   data() {
     return {
       isPwd: true,
-      username: '',
-      password: '',
+      username: "",
+      password: "",
       error: null
     };
   },
   methods: {
     async submit() {
       this.error = "";
-          console.log(this.$store)
-          this.$store.dispatch('appUtils/retrieveToken',{
-            username: this.username,
-            password: this.password
-          }).then(response =>{
-              if(this.error=="")
-              this.$router.push({ name: "homepage" }); 
-          }).catch(error=>{
-            this.error=error.message
-          })
-
+      console.log(this.$store);
+      this.$store
+        .dispatch("appUtils/retrieveToken", {
+          username: this.username,
+          password: this.password
+        })
+        .then(response => {
+          if (this.error == "") this.$router.push({ name: "homepage" });
+        })
+        .catch(error => {
+          this.error = error.message;
+        });
     }
   }
 };
@@ -86,9 +89,6 @@ export default {
 .q-card {
   padding: 15px;
   width: 30%;
-  margin-left: 35%;
-  margin-top: 7%;
-  margin-bottom: 2%;
   align-items: center;
 }
 .buttons {

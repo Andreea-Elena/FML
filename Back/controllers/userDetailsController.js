@@ -31,6 +31,14 @@ const getDetailsByAuthId=async(req, res)=>{
     }
 };
 
+const getDetailsByAuthUsername=async(req, res)=>{
+    const username=req.params.username;
+    if(username){
+        const user=await UserDetailsService.getDetailsByAuthUsername(username);
+        res.status(200).send(user);
+    }
+};
+
 const updateDetails=async(req,res)=>{
     const user=req.body;
     const id=req.params.id;
@@ -46,5 +54,6 @@ module.exports={
     createDetails,
     getDetails,
     updateDetails,
-    getDetailsByAuthId
+    getDetailsByAuthId,
+    getDetailsByAuthUsername
 }
