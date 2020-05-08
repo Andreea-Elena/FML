@@ -13,6 +13,7 @@ export function destroyToken(state){
 }
 
 export function retrieveUserDetails(state, user) {
+    state.id=user.id,
     state.firstName = user.firstName
     state.lastName = user.lastName
     state.email = user.email
@@ -25,6 +26,7 @@ export function retrieveUserDetails(state, user) {
 }
 
 export function destroyUserDetails(state){
+    state.id=null;
     state.firstName = null
     state.lastName = null
     state.email = null

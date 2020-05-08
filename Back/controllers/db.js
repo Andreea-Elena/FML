@@ -111,12 +111,12 @@ const controller = {
                         foreignKey: "idPermission",
                     });
 
-                    Category.belongsTo(PostCategory, {
+                    PostCategory.belongsTo(Category, {
                         targetKey: "id",
                         constraints: false,
                         onDelete: "Cascade",
                         hooks: true,
-                        foreignKey: "idPostCategory",
+                        foreignKey: "idCategory",
                     });
                     
                     PostCategory.belongsTo(Post, {
@@ -152,8 +152,8 @@ const controller = {
                     await UserAuth.sync({force:true});
                     await UserDetails.sync({force:true});
                     await Post.sync({ force: true });
-                    await PostCategory.sync({ force: true });
                     await Category.sync({ force: true });
+                    await PostCategory.sync({ force: true });
                     await Message.sync({ force: true });
                     await MessageRec.sync({ force: true });
                     await PostComment.sync({ force: true });

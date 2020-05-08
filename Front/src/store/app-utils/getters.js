@@ -10,8 +10,13 @@ export function getUsername(state){
     return state.username
 }
 
+export function getIdUserDet(state){
+    return state.id
+}
+
 export function getUserDetails(state){
     const user={
+        id: state.id,
         firstName: state.firstName,
         lastName: state.lastName,
         email: state.email,

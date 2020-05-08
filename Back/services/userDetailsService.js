@@ -47,7 +47,7 @@ const userAuth={
             }).then(response=> this.res=response)
             const userDet=await UserDetails.findOne({
                 where:{
-                    idUserAuth: this.res.id
+                    idUserAuth: user.id
                 }
             });
                 return userDet;
@@ -57,7 +57,7 @@ const userAuth={
     },
 
 
-    updateDetails: async(id1, firstName, lastName,email1,phone1,facebook1,photo1)=>{
+    updateDetails: async(id1, firstName, lastName,email1,phone1,facebook1,photo1,profile1)=>{
         try{
             const user=await UserDetails.update({
                 FirstName: firstName,
@@ -65,7 +65,8 @@ const userAuth={
                 email: email1,
                 phone: phone1,
                 facebook: facebook1,
-                photo: photo1
+                photo: photo1,
+                profile: profile1
             },{
                 where:{
                     id: id1

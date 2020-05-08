@@ -8,6 +8,7 @@ const createUser = async(req,res, next)=>{
             res.status(201).send({
                 message: "User successfully created!"
             });
+            return result
         }catch(err){
             res.status(400).send({
                 message: "User already in use!"
@@ -31,6 +32,7 @@ const getUser1=async(req, res)=>{
         if(user)
         jwt.sign({user}, 'accesstoken',(err,accesstoken)=>{
             res.status(200).send({
+                id: user.id,
                 username: user.username,
                 password: user.password,
                 access_token: accesstoken

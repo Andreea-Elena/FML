@@ -4,9 +4,5 @@ module.exports = (sequelize, DataTypes) => {
         title: DataTypes.STRING,
         description: DataTypes.STRING,
         active: DataTypes.BOOLEAN,
-        createdAt: DataTypes.DATE,
-        updatedAt: DataTypes.DATE,
-        publishedAt: DataTypes.DATE,
-        content: DataTypes.STRING
     });
 };

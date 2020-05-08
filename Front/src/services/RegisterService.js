@@ -9,5 +9,8 @@ export default{
   },
   deleteUserAuth (id){
     return Api().post('api/user/delete/'+id)
+  },
+  editUserDet (id, user){
+    return Api().put('api/user/update/'+id,user)
   }
 }

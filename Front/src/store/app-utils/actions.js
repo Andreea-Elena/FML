@@ -42,6 +42,7 @@ export async function retrieveUserDetails(context){
         .get("http://localhost:8080/api//getdetails/authUser/" + state.username)
         .then(response=>{
                 const user={
+                        id: response.data.id,
                         firstName: response.data.FirstName,
                         lastName:response.data.LastName,
                         email: response.data.email,

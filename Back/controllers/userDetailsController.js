@@ -43,10 +43,16 @@ const updateDetails=async(req,res)=>{
     const user=req.body;
     const id=req.params.id;
     if(id){
+        try{
         const result=await UserDetailsService.updateDetails(id, user.FirstName, user.LastName, user.email, user.phone, user.facebook, user.photo);
         res.status(200).send({
             message: "User Details updated!"
         });
+    }catch(error){
+        res.status(401).send({
+            message: "Email or phone already exist!"
+        });
+    }
     }
 };
 
