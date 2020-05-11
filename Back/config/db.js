@@ -19,7 +19,7 @@ con.connect(function (err) {
   console.log("Connected!");
   con.query("CREATE DATABASE IF NOT EXISTS " + database.databasename, function (err, result) {
     if (err) throw err;
-    console.log("Database created");
+    console.log("Database up to date");
   });
 
 

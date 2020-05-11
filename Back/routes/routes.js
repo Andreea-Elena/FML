@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    createUser, getUser, getUser1, changePassword, deleteUser
+    createUser, getUser, getUser1, changePassword, deleteUser, validatePass
 } = require("../controllers/userAuthController");
 
 router.post("/adduser", createUser);
@@ -10,6 +10,7 @@ router.get("/getuser/:id", getUser);
 router.get("/getuserlogin/:username", getUser1);
 router.put("/user/password/:id", changePassword);
 router.post("/user/delete/:id", deleteUser);
+router.get("/user/validate/:id/:password", validatePass)
 
 
 const {
@@ -47,5 +48,12 @@ const {
 router.post("/addcategory", createCategory);
 router.get("/getcategory/:id", getCategories);
 router.post("/category/delete/:id", deleteCat);
+
+const {
+    createImage, getImage
+} = require("../controllers/imageController");
+
+router.post("/addimage", createImage);
+router.get("/getimage/:id", getImage);
 
 module.exports = router;

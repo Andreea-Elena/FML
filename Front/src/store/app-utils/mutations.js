@@ -6,10 +6,12 @@ export function someMutation (state) {
 export function retrieveToken(state, tokenId) {
     state.token = tokenId.token
     state.username=tokenId.username
+    state.idUserAuth=tokenId.idUserAuth
 }
 export function destroyToken(state){
     state.token = null
     state.username=null
+    state.idUserAuth=null
 }
 
 export function retrieveUserDetails(state, user) {
@@ -20,9 +22,12 @@ export function retrieveUserDetails(state, user) {
     state.phone = user.phone
     state.facebook = user.facebook
     state.profile = user.profile
-    state.picture = user.picture
-    state.registeredAt = user.registeredAt
-    state.lastLogin = user.lastLogin
+    state.seria=user.seria
+    state.group=user.group
+    state.promotion=user.promotion
+    state.specialisation=user.specialisation
+    state.job=user.job
+    state.company=user.company
 }
 
 export function destroyUserDetails(state){
@@ -33,7 +38,10 @@ export function destroyUserDetails(state){
     state.phone = null
     state.facebook = null
     state.profile = null
-    state.picture = null
-    state.registeredAt = null
-    state.lastLogin = null
+    state.seria=null
+    state.group=null
+    state.promotion=null
+    state.specialisation=null
+    state.job=null
+    state.company=null
 }

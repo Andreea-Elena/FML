@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const router = require("./routes/db");
 const router1=require("./routes/routes");
+var fileupload = require("express-fileupload");
+app.use(fileupload());
 const {
     port
 } = require("./config");

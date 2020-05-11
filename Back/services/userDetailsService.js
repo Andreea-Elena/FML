@@ -57,16 +57,21 @@ const userAuth={
     },
 
 
-    updateDetails: async(id1, firstName, lastName,email1,phone1,facebook1,photo1,profile1)=>{
+    updateDetails: async(id1, firstName1, lastName1,email1,phone1,facebook1,profile1,job1,company1,group1,series1,specialisation1,promotion1)=>{
         try{
             const user=await UserDetails.update({
-                FirstName: firstName,
-                LastName: lastName,
+                firstName: firstName1,
+                lastName: lastName1,
                 email: email1,
                 phone: phone1,
                 facebook: facebook1,
-                photo: photo1,
-                profile: profile1
+                profile: profile1,
+                job: job1,
+                company: company1,
+                group: group1,
+                series: series1,
+                specialisation: specialisation1,
+                promotion: promotion1
             },{
                 where:{
                     id: id1

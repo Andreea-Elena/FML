@@ -1,7 +1,7 @@
 <template>
-  <q-page style="background-color:#42455a">
+  <q-page >
     <div class="q-pa-md" >
-    <q-card flat bordered style="max-width: 70%; background-color:#42455a" class="q-ml-xl">
+    <q-card flat style="max-width: 70%; background-color:#42455a" class="q-ml-xl">
       <q-item>
         <q-item-section avatar>
           <q-skeleton type="QAvatar" />

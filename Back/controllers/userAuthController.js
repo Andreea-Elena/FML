@@ -47,7 +47,7 @@ const getUser1=async(req, res)=>{
 const changePassword=async(req,res)=>{
     const user=req.body;
     const id=req.params.id;
-    if(id){
+    if(user.password){
         const result=await UserAuthService.updatePassword(id, user.password);
         res.status(200).send({
             message: "User password changed!"
@@ -64,11 +64,31 @@ const deleteUser=async(req, res)=>{
         })
     }
 }
+const validatePass=async(req, res)=>{
+    const id= req.params.id;
+    const password=req.params.password;
+    if(id){
+        const result=await UserAuthService.validatePass(id, password);
+        if(result!=null)
+        res.status(200).send({
+            message: "Valid password!"
+        })
+        else{
+            res.status(200).send({
+                message: "Not a valid password!"
+            })
+        }
+    }
+}
+
+    
+
 
 module.exports={
     createUser,
     getUser, 
     getUser1, 
     changePassword,
-    deleteUser
+    deleteUser,
+    validatePass
 }

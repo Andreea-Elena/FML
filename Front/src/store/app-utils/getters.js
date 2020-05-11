@@ -10,9 +10,10 @@ export function getUsername(state){
     return state.username
 }
 
-export function getIdUserDet(state){
-    return state.id
+export function getIdUserAuth(state){
+    return state.idUserAuth
 }
+
 
 export function getUserDetails(state){
     const user={
@@ -23,9 +24,12 @@ export function getUserDetails(state){
         phone: state.phone,
         facebook: state.facebook,
         profile: state.profile,
-        picture: state.picture,
-        registeredAt: state.registeredAt,
-        lastLogin: state.lastLogin,
+        seria: state.seria,
+        group: state.group,
+        promotion: state.promotion,
+        specialisation: state.specialisation,
+        job: state.job,
+        company: state.company,
     }
     return user
 }

@@ -1,5 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
+     <div class="background-image" />
     <q-header elevated class="text-white" style="background-color:#42455a">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="left = !left" />
@@ -15,7 +16,6 @@
       show-if-above
       v-model="left"
       side="left"
-      bordered
       style="margin-top=100px"
       v-if="loggedIn"
     >
@@ -72,32 +72,9 @@
       </q-scroll-area>
     </q-drawer>
 
-    <q-drawer
-      show-if-above
-      v-model="right"
-      side="right"
-      bordered
-      class="text-cyan"
-    >
-      <q-scroll-area
-        class="fit"
-        style="background-color:#42455a"
-      ></q-scroll-area>
-    </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
-
-    <q-footer elevated class="text-black" style="background-color:#42455a">
-      <q-toolbar>
-        <q-toolbar-title style="font-size:12px">
-          Prin utilizarea serviciilor KIT, ești de acord cu Utilizarea modulelor
-          cookie. Operăm la nivel global și utilizăm module cookie pentru
-          analiză, personalizare și reclame.
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
   </q-layout>
 </template>
 
@@ -173,3 +150,21 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.background-image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  display: block;
+  background: url("../assets/Graduation.jpg");
+  width: 100%;
+  height: 100%;
+
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+
+</style>

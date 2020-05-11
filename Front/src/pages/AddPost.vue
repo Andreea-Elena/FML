@@ -1,5 +1,5 @@
 <template>
-  <q-page style="background-color:#42455a">
+  <q-page>
     <q-card
       style="background-color:#42455a; width:50%"
       class="absolute-center q-pa-md"

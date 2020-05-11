@@ -3,7 +3,7 @@ const UserDetailsService=require("../services/userDetailsService");
 const createDetails = async(req,res, next)=>{
     const user=req.body;
     try{
-        await UserDetailsService.create(user);
+        await UserDetailsService.create(user)
         res.status(201).send({
             message: "User Details successfully added!"
         });
@@ -44,7 +44,7 @@ const updateDetails=async(req,res)=>{
     const id=req.params.id;
     if(id){
         try{
-        const result=await UserDetailsService.updateDetails(id, user.FirstName, user.LastName, user.email, user.phone, user.facebook, user.photo);
+        await UserDetailsService.updateDetails(id, user.firstName, user.lastName, user.email, user.phone, user.facebook, user.profile,user.job,user.company,user.group,user.series,user.specialisation,user.promotion);
         res.status(200).send({
             message: "User Details updated!"
         });

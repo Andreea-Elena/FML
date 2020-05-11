@@ -63,6 +63,20 @@ const userAuth={
         }catch(err){
             throw new Error(err);
         }
+    },
+
+    validatePass: async(id1, password1)=>{
+        try{
+            const user=await UserAuth.findOne({
+                where:{
+                    id:id1,
+                    password:password1
+                }
+            })
+            return user
+        }catch(err){
+            throw new Error(err);
+        }
     }
 }
 

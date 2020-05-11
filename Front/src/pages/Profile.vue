@@ -1,5 +1,5 @@
 <template>
-    <q-page style="background-color:#42455a">
+    <q-page>
         <q-card style="background-color:#42455a; width: 70%;" class="absolute-center" >
                     <div class="q-pa-md">
     <div class="q-gutter-md">

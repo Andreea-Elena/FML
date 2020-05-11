@@ -10,13 +10,14 @@ export async function retrieveToken(context, credentials){
         axios
         .get("http://localhost:8080/api/getuserlogin/" + credentials.username)
         .then(response=>{
-                console.log(response.data)
                 const tokenId={
+                        idUserAuth: response.data.id,
                         token: response.data.access_token,
                         username: response.data.username
                 }
                localStorage.setItem('access_tokem', tokenId.token)
                localStorage.setItem('username', tokenId.username)
+               localStorage.setItem('idUserAuth',tokenId.idUserAuth)
                 context.commit('retrieveToken', tokenId)
                 if(credentials.password!==response.data.password){
                 reject({message:"Password isn't correct"})}
@@ -32,6 +33,7 @@ export function destroyToken(context){
         if(context.getters.loggedIn){
                localStorage.removeItem('access_tokem')
                localStorage.removeItem('username')
+               localStorage.removeItem('idUserAuth')
                 context.commit('destroyToken')
         }
 }
@@ -43,15 +45,18 @@ export async function retrieveUserDetails(context){
         .then(response=>{
                 const user={
                         id: response.data.id,
-                        firstName: response.data.FirstName,
-                        lastName:response.data.LastName,
+                        firstName: response.data.firstName,
+                        lastName:response.data.lastName,
                         email: response.data.email,
                         phone: response.data.phone,
                         facebook: response.data.facebook,
                         profile: response.data.profile,
-                        photo: response.data.photo,
-                        registeredAt: response.data.registeredAt,
-                        lastLogin: response.data.lastLogin
+                        seria: response.data.seria,
+                        group: response.data.group,
+                        promotion: response.data.promotion,
+                        specialisation: response.data.specialisation,
+                        job: response.data.job,
+                        company: response.data.company,
                 }
                 context.commit('retrieveUserDetails', user)
                 resolve(response)

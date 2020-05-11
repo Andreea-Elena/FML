@@ -10,6 +10,8 @@ const Permission = db.import("../models/Permission");
 const MessageRec = db.import("../models/messageRec");
 const Message = db.import("../models/Message");
 const Category = db.import("../models/Category");
+const Image = db.import("../models/Image");
+const Meeting = db.import("../models/Meeting");
 
 const {
     database
@@ -142,9 +144,21 @@ const controller = {
                         onDelete: "Cascade",
                         hooks: true,
                         foreignKey: "idParent",
-                    });
-                    
-                    
+                    });      
+                    Image.belongsTo(Meeting, {
+                        targetKey: "id",
+                        constraints: false,
+                        onDelete: "Cascade",
+                        hooks: true,
+                        foreignKey: "idMeeting",
+                    });                   
+                    Image.belongsTo(UserDetails, {
+                        targetKey: "id",
+                        constraints: false,
+                        onDelete: "Cascade",
+                        hooks: true,
+                        foreignKey: "idUser",
+                    });                     
 
                     await Permission.sync({ force: true });
                     await Role.sync({ force: true });
@@ -157,6 +171,8 @@ const controller = {
                     await Message.sync({ force: true });
                     await MessageRec.sync({ force: true });
                     await PostComment.sync({ force: true });
+                    await Meeting.sync({ force: true });
+                    await Image.sync({ force: true });
 
                 //   await RolePermission.bulkCreate(role);
 

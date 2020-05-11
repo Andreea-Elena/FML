@@ -1,6 +1,7 @@
 export default {
     token: localStorage.getItem('access_tokem') || null,
     username: localStorage.getItem('username') || null,
+    idUserAuth: localStorage.getItem('idUserAuth') || null,
     
     id: null,
     firstName: null,
@@ -9,7 +10,10 @@ export default {
     phone:  null,
     facebook:  null,
     profile:  null,
-    photo:  null,
-    registeredAt:  null,
-    lastLogin:  null,
+    seria: null,
+    group: null,
+    promotion: null,
+    specialisation: null,
+    job: null,
+    company: null,
 }

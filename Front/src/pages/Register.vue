@@ -1,6 +1,6 @@
 <template>
-<q-page style="background-color:#42455a" class="vertical-middle">
-  <q-card class="absolute-center">
+<q-page style="background-color:#42455a">
+  <q-card>
     <h4 style="text-align: center">
       Register
     </h4>
@@ -100,6 +100,43 @@
           />
         </template>
       </q-input>
+
+            <q-input
+        filled
+        v-model="group"
+        label="Group*"
+        mask="####"
+        hint="####"
+      />
+
+      <div class="q-md" style="max-width: 250px">
+        <q-select
+          v-model="seria"
+          validate-on-blur
+          :options="serii"
+          label="Series*"
+        />
+      </div>
+      <div class="q-md" style="max-width: 250px">
+        <q-select
+          v-model="specialisation"
+          validate-on-blur
+          :options="specialisations"
+          label="Specialisation"
+          :rules="[val => !!val || 'Field is required']"
+        />
+      </div>
+      <div class="q-md" style="max-width: 250px">
+        <q-select
+          v-model="promotion"
+          validate-on-blur
+          :options="promotions"
+          label="Promotion"
+          :rules="[val => !!val || 'Field is required']"
+        />
+      </div>
+
+
       <div class="q-md" style="max-width: 250px">
         <q-select
           v-model="model"
@@ -109,6 +146,7 @@
           :rules="[val => !!val || 'Field is required']"
         />
       </div>
+
       <div v-html="error" class="error" />
       <div class="buttons">
         <q-btn
@@ -118,7 +156,7 @@
           @click="register"
         />
       </div>
-
+  
       <q-checkbox
         v-model="customModel"
         validate-on-blur
@@ -129,14 +167,16 @@
         :rules="[customModel == true || 'You must accept Terms & conditions']"
       />
       <strong> {{ customModel }}</strong>
-
-      <a @click="fixed = true" style="margin-left: 33%">
+      <q-item>
+      <a @click="fixed = true" style="margin-left: 33%" class="text-blue">
         Terms & conditions
       </a>
+      </q-item>
       <q-dialog
         v-model="basic"
         transition-show="rotate"
         transition-hide="rotate"
+        class="absolute-center"
       >
         <q-card>
           <q-card-section>
@@ -196,6 +236,13 @@ export default {
   data() {
     return {
       options: ["Student", "Profesor"],
+      serii: ["A","B","C","D","E"],
+      promotions: ["2017","2018","2019","2020"],
+      specialisations: ["Cybernetics", "Statistics", "Economic Informatics", "Economic Informatics in English"],
+      group: null,
+      promotion:null,
+      specialisation:null,
+      seria: null,
       model: null,
       customModel: "No",
       fixed: false,
@@ -232,10 +279,14 @@ export default {
           .then(response => (this.flag = response.data.id));
         console.log(this.flag);
         await RegisterService.addUserDet({
-          FirstName: this.firstName,
-          LastName: this.lastName,
+          firstName: this.firstName,
+          lastName: this.lastName,
           email: this.email,
           phone: this.phone,
+          seria: this.seria,
+          group: this.group,
+          promotion: this.promotion,
+          specialisation: this.specialisation,
           idUserAuth: this.flag
         });
         if(this.$refs.form.validate()){
@@ -255,9 +306,7 @@ export default {
 .q-card {
   padding: 15px;
   width: 40%;
-  /* margin-left: 35%;
-  margin-top: 2%;
-  margin-bottom: 2%; */
+  margin-left: 35%;
   align-items: center;
 }
 .buttons {

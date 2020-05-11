@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define("userdetails", {
-        FirstName: DataTypes.STRING,
-        LastName: DataTypes.STRING,
+        firstName: DataTypes.STRING,
+        lastName: DataTypes.STRING,
         email: {
            type: DataTypes.STRING,
            unique: true,
@@ -14,10 +14,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         facebook: DataTypes.STRING,
-        registeredAt: DataTypes.DATE,
-        lastLogin: DataTypes.DATE,
         profile: DataTypes.STRING,
-        photo: DataTypes.STRING,
+        seria: DataTypes.STRING,
+        group: DataTypes.INTEGER,
+        promotion: DataTypes.INTEGER,
+        specialisation: DataTypes.STRING,
+        job: DataTypes.STRING,
+        company: DataTypes.STRING,
         idUserAuth: DataTypes.INTEGER
     });
 };
