@@ -7,15 +7,15 @@ const createImage = async (req, res, next) => {
           const id=req.body.idUser
 
           file.mv(
-              "../Front/src/assets/users/picture-"+id+".jpg",
+              "../Front/src/statics/users/picture-"+id+".jpg",
               function(err){
                   if(err){
                       res.status(403).send({error:err.message})
                   }else if(file.mimetype==="image/jpeg"){
-                      ImageService.create({
-                          photo:"users/profile-"+id+".jpg",
-                          idUser: id
-                      })
+                      ImageService.updateImage(
+                          '..\\statics\\users\\picture-'+id+'.jpg',
+                          id
+                      )
                       res.status(201).send({message:"succes"})
                   }
                   else{

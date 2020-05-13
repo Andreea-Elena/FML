@@ -8,6 +8,7 @@ export default {
   created(){
     this.$store.dispatch('appUtils/destroyUserDetails')
     this.$store.dispatch('appUtils/destroyToken')
+    this.$store.dispatch('appUtils/destroyProfileImage')
     .then(response=>{
       this.$router.push({name:'home'})
     })

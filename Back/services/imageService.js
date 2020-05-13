@@ -16,7 +16,7 @@ const image={
         try{
             const image= await Image.findOne({
                 where:{
-                    id: id1
+                    idUser: id1
                 }
             });
             return image;
@@ -24,14 +24,13 @@ const image={
             throw new Error(err.message);
         }
     },
-
-    updateImage: async(id1,photo1)=>{
+    updateImage: async(photo1, id1)=>{
         try{
             const image=await Image.update({
                 photo: photo1,
             },{
                 where:{
-                    id: id1
+                    idUser: id1
                 }
             });
             return image;
@@ -39,18 +38,6 @@ const image={
             throw new Error(err);
         }
     },
-
-    deleteImage: async(id1)=>{
-        try{
-            const user= await Image.destroy({
-                where:{
-                    id: id1
-                }
-            })
-        }catch(err){
-            throw new Error(err);
-        }
-    }
 }
 
 module.exports=image;

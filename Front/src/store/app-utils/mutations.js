@@ -14,6 +14,14 @@ export function destroyToken(state){
     state.idUserAuth=null
 }
 
+export function retrieveProfileImage(state, profileImage) {
+    state.profileImage = profileImage
+}
+
+export function destroyProfileImage(state){
+    state.profileImage = null
+}
+
 export function retrieveUserDetails(state, user) {
     state.id=user.id,
     state.firstName = user.firstName

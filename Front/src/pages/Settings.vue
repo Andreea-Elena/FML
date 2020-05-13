@@ -120,16 +120,16 @@
                 </div>
 
                 <div id="app">
-                    <p class="q-mt-xl text-black">Select a profile picture</p>
-                      <div class="q-pa-md">
-                      <input
-                        type="file"
-                        filled
-                        style="max-width: 300px"
-                        accept=".jpg, image/*"
-                        @change="onFileSelected"
-                      />
-                    </div>
+                  <p class="q-mt-xl text-black">Select a profile picture</p>
+                  <div class="q-pa-md">
+                    <input
+                      type="file"
+                      filled
+                      style="max-width: 300px"
+                      accept=".jpg, image/*"
+                      @change="onFileSelected"
+                    />
+                  </div>
                 </div>
                 <div v-html="error" class="error" />
                 <div class="buttons">
@@ -226,7 +226,8 @@ export default {
       picture: this.$store.getters["appUtils/getUserDetails"].picture,
       group: this.$store.getters["appUtils/getUserDetails"].group,
       promotion: this.$store.getters["appUtils/getUserDetails"].promotion,
-      specialisation: this.$store.getters["appUtils/getUserDetails"].specialisation,
+      specialisation: this.$store.getters["appUtils/getUserDetails"]
+        .specialisation,
       seria: this.$store.getters["appUtils/getUserDetails"].seria,
       job: this.$store.getters["appUtils/getUserDetails"].job,
       company: this.$store.getters["appUtils/getUserDetails"].company,
@@ -258,34 +259,47 @@ export default {
   methods: {
     async editProfile() {
       this.error = "";
-    if (this.$refs.form.validate()) {
-      await RegisterService.editUserDet(
-        this.$store.getters["appUtils/getUserDetails"].id,
-        {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          phone: this.phone,
-          profile: this.profile,
-          facebook: this.facebook,
-          seria: this.seria,
-          group: this.group,
-          promotion: this.promotion,
-          specialisation: this.specialisation,
-          job: this.job,
-          company: this.company, 
+      if (this.$refs.form.validate()) {
+        try {
+          await RegisterService.editUserDet(
+            this.$store.getters["appUtils/getUserDetails"].id,
+            {
+              firstName: this.firstName,
+              lastName: this.lastName,
+              email: this.email,
+              phone: this.phone,
+              profile: this.profile,
+              facebook: this.facebook,
+              seria: this.seria,
+              group: this.group,
+              promotion: this.promotion,
+              specialisation: this.specialisation,
+              job: this.job,
+              company: this.company
+            }
+          );
+          if (this.selectedFile) {
+            const fd = new FormData();
+            fd.append("image", this.selectedFile);
+            fd.append(
+              "idUser",
+              this.$store.getters["appUtils/getUserDetails"].id
+            );
+            await RegisterService.uploadImage(fd);
+          }
+          alert("Profile updated succesfuly");
+          this.$store.dispatch("appUtils/retrieveUserDetails").catch(error => {
+            console.log(error.message);
+          });
+          this.$store
+            .dispatch("appUtils/retrieveProfileImage", this.$store.getters["appUtils/getUserDetails"].id
+            )
+            .catch(error => {
+              console.log(error.message);
+            });
+        } catch (error) {
+          console.log(error);
         }
-      );
-      if(this.selectedFile){
-        const fd=new FormData();
-        fd.append('image', this.selectedFile)
-        fd.append('idUser',this.$store.getters["appUtils/getUserDetails"].id)
-      await RegisterService.uploadImage(fd)
-      }
-        alert("Profile updated succesfuly");
-        this.$store.dispatch("appUtils/retrieveUserDetails").catch(error => {
-          console.log(error.message);
-        });
       }
     },
 
@@ -322,10 +336,25 @@ export default {
       const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
       return emailPattern.test(this.email) || "Invalid email";
     },
-    onFileSelected(event){
-        this.selectedFile=event.target.files[0];
-        //console.log(this.selectedFile)
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0];
     }
+  },
+  created(){
+     this.firstName= this.$store.getters["appUtils/getUserDetails"].firstName,
+      this.lastName= this.$store.getters["appUtils/getUserDetails"].lastName,
+      this.phone= this.$store.getters["appUtils/getUserDetails"].phone,
+      this.email= this.$store.getters["appUtils/getUserDetails"].email,
+      this.profile= this.$store.getters["appUtils/getUserDetails"].profile,
+      this.facebook= this.$store.getters["appUtils/getUserDetails"].facebook,
+      this.picture= this.$store.getters["appUtils/getUserDetails"].picture,
+      this.group= this.$store.getters["appUtils/getUserDetails"].group,
+      this.promotion= this.$store.getters["appUtils/getUserDetails"].promotion,
+      this.specialisation= this.$store.getters["appUtils/getUserDetails"]
+        .specialisation,
+      this.seria= this.$store.getters["appUtils/getUserDetails"].seria,
+      this.job= this.$store.getters["appUtils/getUserDetails"].job,
+      this.company= this.$store.getters["appUtils/getUserDetails"].company
   }
 };
 </script>

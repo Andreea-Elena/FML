@@ -9,6 +9,7 @@
     </q-item>
       <q-form >
         <div class="q-pa-md">
+          <q-input v-model="title" label="Post Title"></q-input>
           <q-editor
             v-model="editor"
             flat
@@ -55,11 +56,12 @@
 export default {
     data(){
         return{
-            editor: "",
-            files: null
+            editor: null,
+            files: null,
+            title: null
         }
     },
-      methods: {
+    methods: {
     counterLabelFn({ totalSize, filesNumber, maxFiles }) {
       return `${filesNumber} files of ${maxFiles} | ${totalSize}`;
     },

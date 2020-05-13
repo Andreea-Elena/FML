@@ -1,9 +1,13 @@
 const UserDetailsService=require("../services/userDetailsService");
+const ImageService = require("../services/imageService");
 
 const createDetails = async(req,res, next)=>{
     const user=req.body;
     try{
         await UserDetailsService.create(user)
+        .then(async response=> await ImageService.create({
+            idUser: response.id
+        }))
         res.status(201).send({
             message: "User Details successfully added!"
         });

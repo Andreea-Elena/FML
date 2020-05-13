@@ -1,62 +1,120 @@
 <template>
-    <q-page>
-        <q-card style="background-color:#42455a; width: 70%;" class="absolute-center" >
-                    <div class="q-pa-md">
-    <div class="q-gutter-md">
-        <q-item class="text-h4 text-white">
-            Profile
-        </q-item>
-        <q-item class="q-mt-xl">
-            <q-item-section>
-                <q-skeleton type="circle" size="100px" />
-            </q-item-section>
-            <q-item-section>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-                <q-item-label>
-                <q-skeleton width="150px" />
-                </q-item-label>
-            </q-item-section>
-        </q-item>    
-        <q-item>
-            <q-btn @click="settings" label="Edit profile" class="text-white">
-            </q-btn>
-        </q-item>
-
+  <q-page>
+    <div class="container">
+      <q-card class="card absolute-center">
+        <div class="hero"></div>
+        <q-card-section class="main">
+          <div class="user">
+            <q-img
+              class="avatar"
+              :src="imgSrc"
+              style="width:200px; height:200px"
+            />
+            <div class="user-details">
+              <q-item-label class="text-bold">
+                {{ name }}
+              </q-item-label>
+              <q-item-label v-if="seria"> Series: {{ seria }} </q-item-label>
+              <q-item-label v-if="group"> Group: {{ group }} </q-item-label>
+              <q-item-label v-if="promotion">
+                Promotion: {{ promotion }}
+              </q-item-label>
+              <q-item-label v-if="job && company">
+                Job: {{ job }}, {{ company }}
+              </q-item-label>
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-section class="stats"> </q-card-section>
+      </q-card>
     </div>
-        </div>
-        </q-card>
-    </q-page>
+  </q-page>
 </template>
 
 <script>
 export default {
-    methods:{
-        settings(){
-            this.$router.push({ name: "settings" })
-        }
+  data() {
+    return {
+      imgSrc: this.$store.getters["appUtils/getProfileImage"],
+      name: this.$store.getters["appUtils/getUserDetails"].firstName+" "+this.$store.getters["appUtils/getUserDetails"].lastName,
+      seria: this.$store.getters["appUtils/getUserDetails"].seria,
+      group: this.$store.getters["appUtils/getUserDetails"].group,
+      promotion: this.$store.getters["appUtils/getUserDetails"].promotion,
+      job: this.$store.getters["appUtils/getUserDetails"].job,
+      company: this.$store.getters["appUtils/getUserDetails"].company
+    };
+  },
+  methods: {
+    settings() {
+      this.$router.push({ name: "settings" });
+    }, created(){
+        this.imgSrc = this.$store.getters["appUtils/getProfileImage"];
+        this.name=this.$store.getters["appUtils/getUserDetails"].firstName+" "+this.$store.getters["appUtils/getUserDetails"].lastName;
+        this.seria=this.$store.getters["appUtils/getUserDetails"].seria;
+        this.group=this.$store.getters["appUtils/getUserDetails"].group;
+        this.promotion=this.$store.getters["appUtils/getUserDetails"].promotion;
+        this.job=this.$store.getters["appUtils/getUserDetails"].job;
+        this.company=this.$store.getters["appUtils/getUserDetails"].company;
     }
-}
+  }
+};
 </script>
+
+<style lang="scss" scoped>
+body {
+  font-family: "Arimo", sans-serif;
+  background: #efefef;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  .dim {
+    color: #999;
+    a {
+      color: #999;
+      &:hover {
+        background: rgb(73, 144, 226);
+        color: white;
+      }
+    }
+  }
+
+  .card {
+    width: 50%;
+    height: 300px;
+    border-radius: 5px;
+    box-shadow: 2px 5px 10px #000;
+    background: #fff;
+    .hero {
+      height: 150px;
+      background: url("../assets/background.jpg");
+      background-size: cover;
+      border-radius: 5px 5px 0px 0px;
+    }
+
+    .main {
+      padding: 0 10px;
+      .user {
+        display: flex;
+        height: 100px;
+        .avatar {
+          border-radius: 50%;
+          border: 3px solid #fff;
+          position: relative;
+          top: -100px;
+        }
+        .user-details {
+          margin-left: 10px;
+          margin-top: 10px;
+          h3 {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
+</style>

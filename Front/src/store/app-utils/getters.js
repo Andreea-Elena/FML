@@ -14,6 +14,10 @@ export function getIdUserAuth(state){
     return state.idUserAuth
 }
 
+export function getProfileImage(state){
+    return state.profileImage
+}
+
 
 export function getUserDetails(state){
     const user={

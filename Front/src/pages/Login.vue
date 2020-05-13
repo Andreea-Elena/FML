@@ -15,6 +15,7 @@
           val => !!val || 'Field is required',
           val => val.length > 5 || 'Username must have at least 5 characters'
         ]"
+        autocomplete="off"
       >
       </q-input>
       <q-input
@@ -26,6 +27,7 @@
         ]"
         label="Password"
         v-model="password"
+        autocomplete="off"
       >
         <template v-slot:append>
           <q-icon
@@ -60,15 +62,15 @@ export default {
   data() {
     return {
       isPwd: true,
-      username: "",
-      password: "",
+      username: null,
+      password: null,
       error: null
     };
   },
   methods: {
     async submit() {
       this.error = "";
-      console.log(this.$store);
+      if(this.$refs.form.validate())
       this.$store
         .dispatch("appUtils/retrieveToken", {
           username: this.username,
@@ -81,6 +83,10 @@ export default {
           this.error = error.message;
         });
     }
+  },
+  mounted(){
+    this.username="",
+    this.password=""
   }
 };
 </script>
