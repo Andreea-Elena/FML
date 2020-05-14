@@ -4,13 +4,13 @@ const UserAuth = db.import("../models/userAuth");
 const RolePermission = db.import("../models/rolePermission");
 const Role = db.import("../models/Role");
 const PostComment = db.import("../models/postComment");
-const PostCategory = db.import("../models/postCategory");
 const Post = db.import("../models/Post");
 const Permission = db.import("../models/Permission");
 const MessageRec = db.import("../models/messageRec");
 const Message = db.import("../models/Message");
-const Category = db.import("../models/Category");
-const Image = db.import("../models/Image");
+const ProfileImage = db.import("../models/profileImage");
+const MeetingImage = db.import("../models/meetingImage");
+const PostImage = db.import("../models/postImage");
 const Meeting = db.import("../models/Meeting");
 
 const {
@@ -112,22 +112,6 @@ const controller = {
                         hooks: true,
                         foreignKey: "idPermission",
                     });
-
-                    PostCategory.belongsTo(Category, {
-                        targetKey: "id",
-                        constraints: false,
-                        onDelete: "Cascade",
-                        hooks: true,
-                        foreignKey: "idCategory",
-                    });
-                    
-                    PostCategory.belongsTo(Post, {
-                        targetKey: "id",
-                        constraints: false,
-                        onDelete: "Cascade",
-                        hooks: true,
-                        foreignKey: "idPost",
-                    });
                 
 
                     Post.belongsTo(Post, {
@@ -145,20 +129,27 @@ const controller = {
                         hooks: true,
                         foreignKey: "idParent",
                     });      
-                    Image.belongsTo(Meeting, {
+                    MeetingImage.belongsTo(Meeting, {
                         targetKey: "id",
                         constraints: false,
                         onDelete: "Cascade",
                         hooks: true,
                         foreignKey: "idMeeting",
                     });                   
-                    Image.belongsTo(UserDetails, {
+                    ProfileImage.belongsTo(UserDetails, {
                         targetKey: "id",
                         constraints: false,
                         onDelete: "Cascade",
                         hooks: true,
                         foreignKey: "idUser",
-                    });                     
+                    });      
+                    PostImage.belongsTo(Post, {
+                        targetKey: "id",
+                        constraints: false,
+                        onDelete: "Cascade",
+                        hooks: true,
+                        foreignKey: "idPost",
+                    });                 
 
                     await Permission.sync({ force: true });
                     await Role.sync({ force: true });
@@ -166,13 +157,13 @@ const controller = {
                     await UserAuth.sync({force:true});
                     await UserDetails.sync({force:true});
                     await Post.sync({ force: true });
-                    await Category.sync({ force: true });
-                    await PostCategory.sync({ force: true });
                     await Message.sync({ force: true });
                     await MessageRec.sync({ force: true });
                     await PostComment.sync({ force: true });
                     await Meeting.sync({ force: true });
-                    await Image.sync({ force: true });
+                    await ProfileImage.sync({ force: true });
+                    await MeetingImage.sync({ force: true });
+                    await PostImage.sync({ force: true });
 
                 //   await RolePermission.bulkCreate(role);
 

@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define("image", {      
+    return sequelize.define("profileImage", {      
         photo: DataTypes.STRING,
         idUser: DataTypes.INTEGER,
-        idMeeting: DataTypes.INTEGER,
+        profile: DataTypes.BOOLEAN
     });
 };

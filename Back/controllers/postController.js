@@ -5,9 +5,9 @@ const PostService=require("../services/postService");
 const createPost = async(req,res, next)=>{
     const post=req.body;
     if(post.title && post.content){
-        await PostService.create(post);
+        const result=await PostService.create(post);
         res.status(201).send({
-            message: "Post successfully created!"
+            result
         });
     }
     else{

@@ -1,6 +1,6 @@
 const sequelize = require('../config/db');
 const Sequelize = require('sequelize');
-const Image  = require('../models/profileImage')(sequelize, Sequelize.DataTypes);
+const Image  = require('../models/postImage')(sequelize, Sequelize.DataTypes);
 
 const image={
     create: async(image)=>{
@@ -12,12 +12,11 @@ const image={
         }
     },
 
-    getImageByIdProfile: async(id1)=>{
+    getImageByIdPost: async(id1)=>{
         try{
             const image= await Image.findOne({
                 where:{
-                    idUser: id1,
-                    profile: 1
+                    idPost: id1,
                 }
             });
             return image;
@@ -28,8 +27,7 @@ const image={
     updateImage: async(photo1, id1)=>{
         try{
             const image=await Image.update({
-                photo: photo1,
-                profile: 1
+                photo: photo1
             },{
                 where:{
                     id: id1,
@@ -39,18 +37,7 @@ const image={
         }catch(err){
             throw new Error(err);
         }
-    },
-    updateImageProfile: async(id1)=>{
-
-            const image=await Image.update({
-                profile: 0,
-            },{
-                where:{
-                    idUser: id1
-                }
-            });
-            return image;
-    },
+    }
 }
 
 module.exports=image;

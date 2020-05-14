@@ -43,7 +43,7 @@ export function destroyToken(context) {
 export async function retrieveProfileImage(context, idUser) {
         return new Promise((resolve, reject) => {
           axios
-            .get("http://localhost:8080/api/getimage/" + idUser)
+            .get("http://localhost:8080/api/getimageprofile/" + idUser)
             .then(response => {
                 context.commit("retrieveProfileImage", response.data.photo);
                 resolve(response.photo);

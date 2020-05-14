@@ -269,6 +269,7 @@ export default {
       this.flag = null;
       let role=this.model==="Student" ? 2:1;
       try {
+        this.$refs.form.validate()
         await RegisterService.register({
           username: this.username,
           password: this.password,

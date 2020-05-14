@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
         publishedAt: DataTypes.DATE,
         title: DataTypes.STRING,
         content: DataTypes.STRING,
-        idUser: DataTypes.INTEGER
+        idUser: DataTypes.INTEGER,
+        visibility: DataTypes.STRING,
+        category: DataTypes.STRING
     });
 };

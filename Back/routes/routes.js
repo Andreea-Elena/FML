@@ -42,18 +42,17 @@ router.put("/comment/update/:id",updateComment);
 router.post("/comment/delete/:id", deleteComment);
 
 const {
-    createCategory, getCategories, deleteCat
-} = require("../controllers/postCategoryController");
-
-router.post("/addcategory", createCategory);
-router.get("/getcategory/:id", getCategories);
-router.post("/category/delete/:id", deleteCat);
-
-const {
-    createImage, getImage
+    createImage, getImageProfile
 } = require("../controllers/imageController");
 
 router.post("/addimage", createImage);
-router.get("/getimage/:id", getImage);
+router.get("/getimageprofile/:id", getImageProfile);
+
+const {
+    createPostImage, getPostImage
+} = require("../controllers/postImageController");
+
+router.post("/addpostimage", createPostImage);
+router.get("/getpostimage/:id", getPostImage);
 
 module.exports = router;
