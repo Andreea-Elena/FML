@@ -14,7 +14,7 @@ router.get("/user/validate/:id/:password", validatePass)
 
 
 const {
-    createDetails, getDetails, updateDetails, getDetailsByAuthId, getDetailsByAuthUsername
+    createDetails, getDetails, updateDetails, getDetailsByAuthId, getDetailsByAuthUsername, getAllUsers
 } = require("../controllers/userDetailsController");
 
 router.post("/adddetails", createDetails);
@@ -22,15 +22,17 @@ router.get("/getdetails/:id", getDetails);
 router.put("/user/update/:id", updateDetails);
 router.get("/getdetails/auth/:id", getDetailsByAuthId);
 router.get("/getdetails/authUser/:username", getDetailsByAuthUsername)
+router.get("/getAllUsers",getAllUsers)
 
 const {
-    createPost, getPost, updatePost, deletePost
+    createPost, getPost, updatePost, deletePost, getPosts
 } = require("../controllers/postController");
 
 router.post("/addpost", createPost);
 router.get("/getpost/:id", getPost);
 router.put("/post/update/:id",updatePost);
 router.post("/post/delete/:id", deletePost);
+router.get("/getposts", getPosts);
 
 const {
     createComment, getComment, updateComment, deleteComment

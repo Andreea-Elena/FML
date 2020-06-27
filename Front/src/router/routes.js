@@ -79,6 +79,19 @@ const routes = [
           requiresAuth: true
         }
       },
+      {
+        path: "/meetings",
+        name: "meetings",
+        component: () => import("pages/Meetings.vue"),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'profile/:id',
+        name: 'profile',
+        component: () => import('../pages/Profile.vue')
+      },
     ]
   }
 ];

@@ -38,4 +38,8 @@ export function getUserDetails(state){
     return user
 }
 
+export function getAllUsers(state){
+    return state.allUsers
+}
+
 

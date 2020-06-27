@@ -18,37 +18,6 @@
       v-if="loggedIn"
     >
       <q-scroll-area class="fit" style="background-color:#42455a">
-        <div class="q-pa-md" style="align-items: center">
-          <div class="container">
-            <q-card class="card">
-              <div class="hero"></div>
-              <q-card-section class="main" @click="editProfile">
-                <div class="user">
-                  <q-img class="avatar" :src="imgSrc" style="width:100px; height:100px"/>
-                  <div class="user-details">
-                    <q-item-label class="text-bold">
-                      {{name}}
-                    </q-item-label>
-                    <q-item-label v-if="seria">
-                      Series: {{seria}}
-                    </q-item-label>
-                    <q-item-label v-if="group">
-                      Group: {{group}}
-                    </q-item-label>
-                    <q-item-label v-if="promotion">
-                      Promotion: {{promotion}}
-                    </q-item-label>
-                    <q-item-label v-if="job && company">
-                      Job: {{job}}, {{company}}
-                    </q-item-label>
-                  </div>
-                </div>
-              </q-card-section>
-              <q-card-section class="stats">
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
         <q-list
           v-for="(menuItem, index) in menuList"
           :key="index"
@@ -96,14 +65,14 @@
 <script>
 const menuList = [
   {
-    icon: "home",
-    label: "Home",
-    to: "/logged"
-  },
-  {
     icon: "all_inbox",
     label: "Write Post",
     to: "/addpost"
+  },
+    {
+    icon: "home",
+    label: "View profile",
+    to: "/profile"
   },
   {
     icon: "find_in_page",
@@ -112,8 +81,8 @@ const menuList = [
   },
   {
     icon: "notifications",
-    label: "Notifications",
-    to: "/logged"
+    label: "Meetings",
+    to: "/meetings"
   },
   {
     icon: "group",

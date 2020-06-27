@@ -6,8 +6,6 @@ const Role = db.import("../models/Role");
 const PostComment = db.import("../models/postComment");
 const Post = db.import("../models/Post");
 const Permission = db.import("../models/Permission");
-const MessageRec = db.import("../models/messageRec");
-const Message = db.import("../models/Message");
 const ProfileImage = db.import("../models/profileImage");
 const MeetingImage = db.import("../models/meetingImage");
 const PostImage = db.import("../models/postImage");
@@ -63,31 +61,8 @@ const controller = {
                         onDelete: "Cascade",
                         hooks: true,
                         foreignKey: "idPost",
-                    });
-                    
-                    Message.belongsTo(UserAuth, {
-                        targetKey: "id",
-                        constraints: false,
-                        onDelete: "Cascade",
-                        hooks: true,
-                        foreignKey: "idUser",
-                    });
-                    
-                    MessageRec.belongsTo(UserAuth, {
-                        targetKey: "id",
-                        constraints: false,
-                        onDelete: "Cascade",
-                        hooks: true,
-                        foreignKey: "idUser",
-                    });
-                    
-                    MessageRec.belongsTo(Message, {
-                        targetKey: "id",
-                        constraints: false,
-                        onDelete: "Cascade",
-                        hooks: true,
-                        foreignKey: "idMessage",
-                    });
+                    });                  
+
                     
                     UserAuth.belongsTo(Role, {
                         targetKey: "id",
@@ -157,8 +132,6 @@ const controller = {
                     await UserAuth.sync({force:true});
                     await UserDetails.sync({force:true});
                     await Post.sync({ force: true });
-                    await Message.sync({ force: true });
-                    await MessageRec.sync({ force: true });
                     await PostComment.sync({ force: true });
                     await Meeting.sync({ force: true });
                     await ProfileImage.sync({ force: true });

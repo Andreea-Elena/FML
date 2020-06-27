@@ -83,6 +83,16 @@ const userAuth={
         }
     },
 
+    getAllUsers:async()=>{
+        try{
+            const users=await UserDetails.findAll();
+            return users;
+        }
+        catch(err){
+            throw new Error(err);
+        }
+    }
+
 }
 
 module.exports=userAuth;

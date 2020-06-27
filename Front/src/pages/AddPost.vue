@@ -57,7 +57,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      editor: null,
+      editor: "",
       title: null,
       selectedFile: null,
       category1: null,
@@ -87,11 +87,12 @@ export default {
         await PostService.add({
           title: this.title,
           content: this.editor,
-          idUser: this.$store.getters["appUtils/getUserDetails"].id,
+          idUser: this.$store.getters["appUtils/getIdUserAuth"],
           visibility: this.category1,
           category: this.category2,
           publishedAt: Date.now()
         }).then(async response=> {
+          console.log(response)
           if (this.selectedFile) {
             const fd = new FormData();
             fd.append("image", this.selectedFile);

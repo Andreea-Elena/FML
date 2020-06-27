@@ -16,5 +16,6 @@ export default {
     specialisation: null,
     job: null,
     company: null,
-    profileImage: null
+    profileImage: null,
+    allUsers: null
 }

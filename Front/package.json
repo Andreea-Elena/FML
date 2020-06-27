@@ -19,6 +19,11 @@
     "@quasar/extras": "^1.0.0",
     "@vuex-orm/core": "^0.36.3",
     "axios": "^0.19.2",
+    "fs": "^0.0.1-security",
+    "fs-access": "^2.0.0",
+    "fs-extra": "^9.0.1",
+    "fs2": "^0.3.8",
+    "is-there": "^4.5.0",
     "quasar": "^1.0.0",
     "vue": "^2.6.11",
     "vuejs-auto-complete": "^0.9.0",
@@ -31,7 +36,8 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-loader": "^3.0.3",
-    "eslint-plugin-vue": "^6.1.2"
+    "eslint-plugin-vue": "^6.1.2",
+    "webpack": "^4.43.0"
   },
   "engines": {
     "node": ">= 10.18.1",

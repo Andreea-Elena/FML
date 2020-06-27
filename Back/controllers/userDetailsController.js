@@ -57,10 +57,23 @@ const updateDetails=async(req,res)=>{
     }
 };
 
+const getAllUsers=async(req, res)=>{
+    try{
+        const users=await UserDetailsService.getAllUsers()
+        res.status(200).send(users)
+    }
+    catch(error){
+        res.status(401).send({
+            message: "Users not found"
+        });
+    }
+}
+
 module.exports={
     createDetails,
     getDetails,
     updateDetails,
     getDetailsByAuthId,
-    getDetailsByAuthUsername
+    getDetailsByAuthUsername,
+    getAllUsers
 }

@@ -53,3 +53,7 @@ export function destroyUserDetails(state){
     state.job=null
     state.company=null
 }
+
+export function setAllUsers(state, data) {
+    state.allUsers = data
+  }

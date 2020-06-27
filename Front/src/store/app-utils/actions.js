@@ -96,3 +96,20 @@ export function destroyUserDetails(context) {
     context.commit("destroyUserDetails");
   }
 }
+
+
+export function retrieveAllUsers(context){
+  return new Promise((resolve, reject)=>{
+    axios
+      .get("http://localhost:8080/api/getAllUsers")
+      .then(response=>{
+        const data=response.data
+        context.commit("setAllUsers",data)
+        resolve(response)
+      })
+      .catch(error =>{
+        console.log(error)
+        reject(error)
+      })
+  })
+}

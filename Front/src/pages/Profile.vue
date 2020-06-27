@@ -35,19 +35,22 @@
 export default {
   data() {
     return {
-      imgSrc: this.$store.getters["appUtils/getProfileImage"],
-      name: this.$store.getters["appUtils/getUserDetails"].firstName+" "+this.$store.getters["appUtils/getUserDetails"].lastName,
-      seria: this.$store.getters["appUtils/getUserDetails"].seria,
-      group: this.$store.getters["appUtils/getUserDetails"].group,
-      promotion: this.$store.getters["appUtils/getUserDetails"].promotion,
-      job: this.$store.getters["appUtils/getUserDetails"].job,
-      company: this.$store.getters["appUtils/getUserDetails"].company
+      imgSrc: "",
+      name: "",
+      seria: "",
+      group: "",
+      promotion: "",
+      job: "",
+      company: "",
+      users: [],
     };
   },
   methods: {
     settings() {
       this.$router.push({ name: "settings" });
-    }, created(){
+    }     
+  },created: function() {
+      if(!this.$route.params.id){
         this.imgSrc = this.$store.getters["appUtils/getProfileImage"];
         this.name=this.$store.getters["appUtils/getUserDetails"].firstName+" "+this.$store.getters["appUtils/getUserDetails"].lastName;
         this.seria=this.$store.getters["appUtils/getUserDetails"].seria;
@@ -55,8 +58,20 @@ export default {
         this.promotion=this.$store.getters["appUtils/getUserDetails"].promotion;
         this.job=this.$store.getters["appUtils/getUserDetails"].job;
         this.company=this.$store.getters["appUtils/getUserDetails"].company;
+      }else{
+        this.users=this.$store.getters["appUtils/getAllUsers"]
+        const user=this.users.find(item => item.id===this.$route.params.id)
+
+        this.imgSrc="/statics/users/picture-"+user.id+"-1.jpg"
+
+        this.name=user.name
+        this.seria=user.seria
+        this.group=user.group
+        this.promotion=user.promotion
+        this.job=user.job
+        this.company=user.company
+      }
     }
-  }
 };
 </script>
 

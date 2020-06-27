@@ -52,6 +52,15 @@ const post={
         }catch(err){
             throw new Error(err);
         }
+    },
+
+    getAll: async()=>{
+        try{
+            const users=await Post.findAll();
+            return users
+        }catch(err){
+            throw new Error(err);
+        }
     }
 }
 
