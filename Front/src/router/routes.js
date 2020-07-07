@@ -40,9 +40,17 @@ const routes = [
     component: () => import("layouts/LoggedLayout.vue"),
     children: [
       {
-        path: "/logged",
+        path: "/explore",
         name: "homepage",
-        component: () => import("pages/Homepage.vue"),
+        component: () => import("pages/Explore.vue"),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/groups",
+        name: "groups",
+        component: () => import("pages/Groups.vue"),
         meta: {
           requiresAuth: true
         }
@@ -91,6 +99,22 @@ const routes = [
         path: 'profile/:id',
         name: 'profile',
         component: () => import('../pages/Profile.vue')
+      },
+      {
+        path: "/meeting",
+        name: "meeting",
+        component: () => import("pages/Meeting.vue"),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "/addmeeting",
+        name: "addMeeting",
+        component: () => import("pages/AddMeeting.vue"),
+        meta: {
+          requiresAuth: true
+        }
       },
     ]
   }

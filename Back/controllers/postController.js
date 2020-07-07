@@ -47,9 +47,7 @@ const deletePost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   const result = await PostService.getAll();
-  res.status(200).send({
-    result,
-  });
+  res.status(200).send(result);
 };
 
 module.exports = {

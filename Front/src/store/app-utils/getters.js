@@ -42,4 +42,16 @@ export function getAllUsers(state){
     return state.allUsers
 }
 
+export function getAllPosts(state){
+    return state.allPosts
+}
+
+export function getAllMeetings(state){
+    return state.allMeetings
+}
+
+export function getAllMeetingImages(state){
+    return state.allMeetingImages
+}
+
 

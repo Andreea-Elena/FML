@@ -57,4 +57,21 @@ const {
 router.post("/addpostimage", createPostImage);
 router.get("/getpostimage/:id", getPostImage);
 
+const {
+    createMeeting, getMeeting, deleteMeeting, getMeetings,
+} = require("../controllers/meetingController");
+
+router.post("/addmeeting", createMeeting);
+router.get("/getmeeting/:id", getMeeting);
+router.post("/meeting/delete/:id", deleteMeeting);
+router.get("/getAllMeetings",getMeetings)
+
+const {
+    createMeetingImage, getMeetingImages
+} = require("../controllers/meetingImageController");
+
+router.post("/addmeetingimage", createMeetingImage);
+router.get("/getmeetingimages/:id", getMeetingImages);
+
+
 module.exports = router;

@@ -77,7 +77,7 @@ const menuList = [
   {
     icon: "find_in_page",
     label: "Explore",
-    to: "/logged"
+    to: "/explore"
   },
   {
     icon: "notifications",
@@ -87,7 +87,7 @@ const menuList = [
   {
     icon: "group",
     label: "Groups",
-    to: "/logged"
+    to: "/groups"
   },
   {
     icon: "exit_to_app",

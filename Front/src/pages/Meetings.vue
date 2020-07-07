@@ -2,21 +2,20 @@
   <q-page>
     <div id="content">
       <h1>Meetings</h1>
-      <div v-for=" request in totalRequests" :key="request.request.id" id="list-content">
+       <q-btn @click="addMeeting">Add Meeting</q-btn>
+      <div v-for="meeting in totalMeetings" :key="meeting.id" id="list-content">
         <q-card
-          style="background-color: rgba(47,72,88,0.9);"
-          @click="redirectToRequest(request)"
+          style="background-color:#42455a"
+          @click="redirectToMeeting(meeting)"
           class="row"
         >
           <q-card-section class="col-8">
-            <div class="text-h6">{{request.request.title}}</div>
-            <div class="text-subtitle1">{{request.request.date}}</div>
+            <div v-if= meeting.date class="text-subtitle1">Date: {{meeting.date}}</div>
           </q-card-section>
           <q-card-section class="col">
             <div
               class="text-subtitle2"
-            >{{request.userRequest.firstName}} {{request.userRequest.lastName}}</div>
-            <div class="text-subtitle1">{{request.userRequest.departament}}</div>
+            >Promotion: {{meeting.promotion}}</div>
           </q-card-section>
         </q-card>
       </div>
@@ -27,30 +26,33 @@
 
 <script>
 export default {
-  name: 'MyRequests',
+  name: 'MyMeetings',
   data: function() {
     return {
-      totalRequests: ''
+      totalMeetings: ''
     }
   },
   methods: {
-    redirectToRequest(request) {
-      console.log(request)
-      this.$store.dispatch('selectRequest', request)
+    redirectToMeeting(meeting) {
+      console.log(meeting)
+     // this.$store.dispatch('selectRequest', request)
       this.$router.push({
-        name: 'request',
-        params: { idRequest: request.request.id }
+        name: 'meeting',
+        params: { idMeeting: meeting.id }
+      })
+    },
+    addMeeting() {
+       this.$router.push({
+        name: 'addMeeting',
       })
     }
   },
   created: function() {
     this.$store
-      .dispatch('allRequests')
+      .dispatch("appUtils/retrieveAllMeetings")
       .then(res => {
-        const category = this.$store.getters.getAllRequests
-        console.log(category)
-        this.totalRequests = category
-        console.log(category)
+        const category = this.$store.getters["appUtils/getAllMeetings"]
+        this.totalMeetings = category
       })
       .catch(error => {
         console.log(error.message)
@@ -90,19 +92,21 @@ export default {
   align-items: center;
 }
 h1 {
-  position: relative;
+   position: relative;
   font-size: calc(
     14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))
   ) !important;
   line-height: calc(3.5em + (1.5 - 1.2) * ((100vw - 300px) / (1600 - 300)));
-  color: #2f4858;
   text-align: center;
-  text-transform: uppercase;
   letter-spacing: 0.5em;
-
-  text-shadow: 2px 2px #ffffff;
-  font-weight: 500;
   width: fit-content;
+  color: #ffffff;
+  font-family: 'Raleway',sans-serif; 
+  font-size: 62px; font-weight: 800; 
+  line-height: 72px; 
+  margin: 0 0 24px; 
+  text-align: center; 
+  text-transform: uppercase;
 }
 .q-page {
   justify-content: center;
@@ -129,4 +133,23 @@ h1 {
     margin-bottom: 1%;
   }
 }
+
+@media (min-width: 800px) {
+  .q-btn {
+    width: 50%;
+    padding: 2%;
+    border-radius: 10px;
+    margin-bottom: 1%;
+  }
+}
+
+@media (max-width: 799px) {
+  .q-btn {
+    width: 90%;
+    padding: 2%;
+    border-radius: 10px;
+    margin-bottom: 1%;
+  }
+}
+
 </style>

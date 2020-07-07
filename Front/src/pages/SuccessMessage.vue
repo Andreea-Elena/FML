@@ -4,7 +4,7 @@
       id="text"
       class="text-h6"
       style="margin-top: 10px;"
-    >Your request has been sent! Wait for the Acquisition Departament to respond.</div>
+    >Your meeting has been added.</div>
 
     <q-separator />
     <div class="q-pa-md flex flex-center">
@@ -25,8 +25,8 @@ export default {
   methods: {
     timeout: function() {
       setTimeout(() => {
-        this.$router.push('/user/myRequests')
-      }, 5000)
+        this.$router.push('meetings')
+      }, 3000)
     }
   },
 

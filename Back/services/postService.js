@@ -14,12 +14,12 @@ const post={
 
     getPostById: async(id1)=>{
         try{
-            const post= await Post.findOne({
+            const meeting= await Post.findOne({
                 where:{
                     id: id1
                 }
             });
-            return post;
+            return meeting;
         } catch(err){
             throw new Error(err.message);
         }
@@ -28,7 +28,7 @@ const post={
 
     updatePost: async(id1, newContent, newTitle)=>{
         try{
-            const post=await Post.update({
+            const meeting=await Post.update({
                 content: newContent,
                 title: newTitle
             },{
@@ -36,7 +36,7 @@ const post={
                     id: id1
                 }
             });
-            return post;
+            return meeting;
         }catch(err){
             throw new Error(err);
         }
@@ -56,8 +56,8 @@ const post={
 
     getAll: async()=>{
         try{
-            const users=await Post.findAll();
-            return users
+            const meetings=await Post.findAll();
+            return meetings
         }catch(err){
             throw new Error(err);
         }

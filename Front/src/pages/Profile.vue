@@ -64,7 +64,7 @@ export default {
 
         this.imgSrc="/statics/users/picture-"+user.id+"-1.jpg"
 
-        this.name=user.name
+        this.name=user.firstName+" "+user.lastName
         this.seria=user.seria
         this.group=user.group
         this.promotion=user.promotion

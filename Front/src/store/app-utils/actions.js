@@ -113,3 +113,83 @@ export function retrieveAllUsers(context){
       })
   })
 }
+
+export function retrieveAllPosts(context){
+  return new Promise((resolve, reject)=>{
+    axios
+      .get("http://localhost:8080/api/getposts")
+      .then(response=>{
+        const data=response.data
+        context.commit("setAllPosts",data)
+        resolve(response)
+      })
+      .catch(error =>{
+        console.log(error)
+        reject(error)
+      })
+  })
+}
+
+export function retrieveAllMeetings(context){
+  return new Promise((resolve, reject)=>{
+    axios
+      .get("http://localhost:8080/api/getAllMeetings")
+      .then(response=>{
+        const data=response.data
+        context.commit("setAllMeetings",data)
+        resolve(response)
+      })
+      .catch(error =>{
+        console.log(error)
+        reject(error)
+      })
+  })
+}
+
+export function addMeeting(context, data) {
+  const params = new FormData()
+  params.append('date', data.date)
+  params.append('promotion', data.promotion)
+  return new Promise((resolve, reject) => {
+    axios
+      .post('http://localhost:8080/api/addmeeting', params)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export function addMeetingImage(context, data) {
+  const params = new FormData()
+  params.append('image', data.photo)
+  params.append('idMeeting', data.idMeeting)
+  return new Promise((resolve, reject) => {
+    axios
+      .post('http://localhost:8080/api/addmeetingimage', params)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export function retrieveMeetingImages(context,id){
+  return new Promise((resolve, reject)=>{
+    axios
+      .get("http://localhost:8080/api/getmeetingimages/"+id)
+      .then(response=>{
+        const data=response.data
+        context.commit("setAllMeetingImages",data)
+        resolve(response)
+      })
+      .catch(error =>{
+        console.log(error)
+        reject(error)
+      })
+  })
+}

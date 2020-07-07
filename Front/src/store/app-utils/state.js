@@ -17,5 +17,8 @@ export default {
     job: null,
     company: null,
     profileImage: null,
-    allUsers: null
+    allUsers: null,
+    allPosts: null,
+    allMeetings: null,
+    allMeetingImages: null,
 }

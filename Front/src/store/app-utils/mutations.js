@@ -57,3 +57,15 @@ export function destroyUserDetails(state){
 export function setAllUsers(state, data) {
     state.allUsers = data
   }
+
+  export function setAllPosts(state, data) {
+    state.allPosts = data
+  }
+
+  export function setAllMeetings(state, data) {
+    state.allMeetings = data
+  }
+
+  export function setAllMeetingImages(state, data) {
+    state.allMeetingImages = data
+  }

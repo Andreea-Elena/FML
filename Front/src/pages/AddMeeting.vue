@@ -4,34 +4,27 @@
       <h1>Add Meeting</h1>
       <q-card class="q-card-form">
         <q-form id="form" style="margin-top:5%;">
-          <q-input
-            ref="input1"
-            v-model="request.title"
-            label="Titlu"
-            color="primary"
-            type="text"
-            :rules="inputRules"
+
+          <q-select
+            v-model="meeting.promotion"
+            validate-on-blur
+            :options="promotions"
+            label="Promotion"
+            ref="promotion"
+            :rules="[val => !!val || 'Field is required']"
           />
 
-          <q-input
-            ref="input2"
-            v-model="request.message"
-            label="Mesaj"
-            type="textarea"
-            color="primary"
-            :rules="messageRules"
+          <q-date
+            v-model="meeting.date"
+            landscape
+            :rules="[val => va!=null || 'Date is required']"
           />
-          <q-input
-            ref="input3"
-            v-model="request.file"
-            color="primary"
-            hint="File - pdf"
-            type="file"
-            @input="val => { request.file = val[0] }"
-          />
+        
         </q-form>
         <div class="buttons">
-          <q-btn color="primary" v-on:click="sendRequest" width="60%">Trimite cererea</q-btn>
+          <q-btn color="primary" v-on:click="sendMeeting" width="60%"
+            >Adauga meeting</q-btn
+          >
         </div>
       </q-card>
     </div>
@@ -40,58 +33,47 @@
 </template>
 
 <script>
-import Success from 'pages/SuccessMessage'
-import { Notify } from 'quasar'
+import Success from "pages/SuccessMessage";
+import { Notify } from "quasar";
 export default {
-  name: 'AddRequest',
+  name: "AddMeeting",
   components: {
     Success
   },
   data: function() {
     return {
-      request: {
-        title: '',
-        message: '',
-        file: ''
+      meeting: {
+        date: "",
+        promotion: ""
       },
+      promotions: ["2017", "2018", "2019", "2020"],
       success: false,
-      inputRules: [
-        value => value.length > 3 || 'Minimum length is 3 characters!',
-        value => value.length < 20 || 'Maximum length is 20 characters!'
-      ],
-      messageRules: [
-        value => value.length < 250 || 'Maximum length is 250 characters!'
-      ]
-    }
+    };
   },
   methods: {
-    sendRequest: function() {
+    sendMeeting: function() {
       if (
-        this.$refs.input1.validate() &&
-        this.$refs.input2.validate() &&
-        this.$refs.input3.validate()
+        this.$refs.promotion.validate()
       ) {
         this.$store
-          .dispatch('addRequest', this.request)
+          .dispatch("appUtils/addMeeting", this.meeting)
           .then(res => {
-            this.success = true
+            this.success = true;
           })
           .catch(error => {
-            console.log(error)
+            console.log(error);
             Notify.create({
-              message: 'There was an error!',
-              color: 'negative'
-            })
-          })
+              message: "There was an error!",
+              color: "negative"
+            });
+          });
       }
     }
   }
-}
+};
 </script>
 
-
-
-<style  scoped>
+<style scoped>
 .buttons {
   display: flex;
   margin-top: 10%;
@@ -154,11 +136,12 @@ h1 {
   letter-spacing: 0.5em;
   width: fit-content;
   color: #ffffff;
-  font-family: 'Raleway',sans-serif; 
-  font-size: 62px; font-weight: 800; 
-  line-height: 72px; 
-  margin: 0 0 24px; 
-  text-align: center; 
+  font-family: "Raleway", sans-serif;
+  font-size: 62px;
+  font-weight: 800;
+  line-height: 72px;
+  margin: 0 0 24px;
+  text-align: center;
   text-transform: uppercase;
 }
 .q-page {
