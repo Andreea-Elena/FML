@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const PostCommentService=require("../services/postCommentService");
 
 const createComment = async(req,res, next)=>{
+    console.log(req.body)
     const comment=req.body;
     if(comment.title && comment.content){
         await PostCommentService.create(comment);
@@ -17,13 +18,6 @@ const createComment = async(req,res, next)=>{
     }
 };
 
-const getComment=async(req,res)=>{
-    const id=req.params.id;
-    if(id){
-        const comment=await PostCommentService.getCommentById(id);
-        res.status(200).send(comment);
-    }
-}
 
 const updateComment=async(req,res)=>{
     const comment=req.body;
@@ -46,9 +40,17 @@ const deleteComment=async(req, res)=>{
     }
 }
 
+const getPostComments = async (req, res) => {
+    const id = req.params.id;
+    if (id) {
+      const result = await PostCommentService.getAll(id);
+      res.status(200).send(result);
+    }
+  };
+
 module.exports={
     createComment,
-    getComment,
     updateComment, 
-    deleteComment
+    deleteComment,
+    getPostComments
 }

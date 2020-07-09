@@ -319,7 +319,7 @@ export default {
             username: this.username,
             password: this.password,
             idRole: role
-          });
+          })
           await axios
             .get("http://localhost:8080/api/getuserlogin/" + this.username)
             .then(response => (this.flag = response.data.id));

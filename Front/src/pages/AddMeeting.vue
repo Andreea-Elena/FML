@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div id="content" v-if="!this.success">
-      <h1>Add Meeting</h1>
+      <h1>Add Event</h1>
       <q-card class="q-card-form">
         <q-form id="form" style="margin-top:5%;">
 

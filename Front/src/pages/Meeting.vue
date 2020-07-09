@@ -1,39 +1,37 @@
 <template>
   <q-page>
     <div id="content" class="q-pa-md">
-      <h1>Meeting photos</h1>
-      <div class="q-pa-md">
-        <input
-          type="file"
-          filled
-          style="max-width: 300px"
-          accept=".jpg, image/*"
-          @change="onFileSelected"
-          multiple
-        />
-      </div>
-      <q-btn @click="addImages">Add images</q-btn>
-      <div
-        v-for="meetingImage in allMeetingImages"
-        :key="meetingImage.id"
-        id="list-content"
-      >
-        <div class="image-card">
-          <img
-            class="image-card__image"
-            :src="meetingImage.photo"
+      <div>
+        <h1>Event photos</h1>
+        <div class="q-pa-md">
+          <input
+            type="file"
+            filled
+            style="max-width: 300px"
+            accept=".jpg, image/*"
+            @change="onFileSelected"
+            multiple
           />
         </div>
+        <q-btn @click="addImages">Add images</q-btn>
       </div>
-      <carousel :interval="9999999999999" slide showControls>
-   <carousel-item class="category"  v-for="meetingImage in allMeetingImages"
-        :key="meetingImage.id"
-        id="list-content">
-      <div>
-            <img v-bind:data-id="meetingImage.id" v-bind:src="meetingImage.photo | activityImage" width="500" height="500">
-         </div>
-   </carousel-item>
-</carousel>
+
+      <div class="row justify-center q-gutter-sm">
+        <q-intersection
+          v-for="meetingImage in allMeetingImages"
+          :key="meetingImage.id"
+          id="list-content"
+        >
+          <q-card
+            style="position: relative; width: 300px; height: 300px; overflow: hidden; background-color:black"
+          >
+            <img
+              :src="meetingImage.photo"
+              style="position: absolute; max-width: 100%; width: 100%; height: auto; top: 50%; left: 50%; transform: translate( -50%, -50%);"
+            />
+          </q-card>
+        </q-intersection>
+      </div>
     </div>
   </q-page>
 </template>
@@ -64,17 +62,20 @@ export default {
         this.$store.dispatch("appUtils/addMeetingImage", this.meetingImage);
       }
       this.$store
-      .dispatch("appUtils/retrieveMeetingImages", this.$route.params.idMeeting)
-      .then(res => {
-        const meetingImages = this.$store.getters[
-          "appUtils/getAllMeetingImages"
-        ];
-        this.all = meetingImages;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-      this.allMeetingImages=this.all
+        .dispatch(
+          "appUtils/retrieveMeetingImages",
+          this.$route.params.idMeeting
+        )
+        .then(res => {
+          const meetingImages = this.$store.getters[
+            "appUtils/getAllMeetingImages"
+          ];
+          this.all = meetingImages;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.allMeetingImages = this.all;
     }
   },
   created: function() {
@@ -84,8 +85,8 @@ export default {
         const meetingImages = this.$store.getters[
           "appUtils/getAllMeetingImages"
         ];
-        this.all = meetingImages
-        this.allMeetingImages=this.all
+        this.all = meetingImages;
+        this.allMeetingImages = this.all;
       })
       .catch(err => {
         console.log(err);
@@ -121,6 +122,21 @@ h1 {
   direction: column;
   width: 100%;
   height: 100%;
+}
+
+.example-item {
+  height: 290px;
+  width: 290px;
+  max-height: 290px;
+  max-width: 290px;
+}
+#content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 550px;
+  align-items: center;
 }
 
 </style>

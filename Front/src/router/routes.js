@@ -116,6 +116,14 @@ const routes = [
           requiresAuth: true
         }
       },
+      {
+        path: "/post",
+        name: "post",
+        component: () => import("pages/Post.vue"),
+        meta: {
+          requiresAuth: true
+        }
+      },
     ]
   }
 ];

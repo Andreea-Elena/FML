@@ -83,10 +83,6 @@ export default {
           this.error = error.message;
         });
     }
-  },
-  mounted(){
-    this.username="",
-    this.password=""
   }
 };
 </script>

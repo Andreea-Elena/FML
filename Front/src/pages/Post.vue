@@ -1,118 +1,116 @@
 <template>
   <q-page>
     <div id="content">
-      <h1>Search for posts</h1>
-      <div id="searching">
-        <q-select
-          v-model="option"
-          :options="options"
-          label="Options"
-          class="select"
-          @input="onToggleOption"
-        >
-          <template v-slot:prepend>
-            <q-icon
-              name="category"
-              class="cursor-pointer"
-              style="margin-left:5px;"
+      <div class="projcard-container">
+        <div class="projcard projcard-grey">
+          <div class="projcard-innerbox">
+            <img
+              class="projcard-img"
+              :src="
+                '\\statics\\posts\\picture-' +
+                  this.$route.params.id +
+                  '-' +
+                  this.$route.params.idUser +
+                  '.jpg'
+              "
+              alt="This post contains no picture"
             />
-          </template>
-        </q-select>
-      </div>
-
-      <div v-for="post in filtered" :key="post.id" id="list-content">
-        <div class="projcard-container"  @click="redirectToPost(post)">
-          <div class="projcard projcard-grey">
-            <div class="projcard-innerbox">
-              <img
-                class="projcard-img"
-                :src="
-                  '\\statics\\posts\\picture-' +
-                    post.id +
-                    '-' +
-                    post.idUser +
-                    '.jpg'
-                "
-                alt="This post contains no picture"
-              />
-              <div class="projcard-textbox">
-                <div class="projcard-title">{{ post.title }}</div>
-                <div class="projcard-subtitle">
-                  This post belongs to the category
-                  {{ post.category }}
-                </div>
-                <div class="projcard-bar"></div>
-                <div class="projcard-description">
-                  {{ post.content }}
-                </div>
-                <div class="projcard-tagbox">
-                  <span class="projcard-tag">{{ post.category }}</span>
-                </div>
+            <div class="projcard-textbox">
+              <div class="projcard-title">{{ this.$route.params.title }}</div>
+              <div class="projcard-subtitle">
+                This post belongs to the category
+                {{ this.$route.params.category }}
+              </div>
+              <div class="projcard-bar"></div>
+              <div class="projcard-description">
+                {{ this.$route.params.content }}
+              </div>
+              <div class="projcard-tagbox">
+                <span class="projcard-tag">{{
+                  this.$route.params.category
+                }}</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div id="addComment">
+        <q-input square outlined v-model="text" label="Add comment" />
+        <q-btn @click="addComment">
+          Add
+        </q-btn>
+      </div>
+
+      <div v-for="comment in comments" :key="comment.id" id="list-content">
+        <q-card
+          style="background-color:rgba(255,255,255,0.7);"
+          class="card-request row"
+        >
+          <q-card-section class="col-6">
+            <div class="text-subtitle1">Content: {{ comment.content }}</div>
+            <div class="text-subtitle1">Date: {{ comment.publishedAt | filter }}</div>
+          </q-card-section>
+        </q-card>
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
+import { Notify } from "quasar";
 export default {
   data: function() {
     return {
-      filtered: [],
-      option: "General",
-      filteredPosts: [],
-      options: ["Out of topic", "Jobs", "Academic", "Hobbies"],
-      posts: []
+      comments: [],
+      text: null,
+      comment: {
+        content: null,
+        title: null,
+        idPost: null,
+        publishedAt: null
+      }
     };
   },
   methods: {
-    redirectToPost(user) {
-      this.$router.push({
-        name: "post",
-        params: {
-          id: user.id,
-          content: user.content,
-          date: user.date,
-          category: user.category,
-          idUser: user.idUser,
-          title: user.title
-        }
-      });
-    },
-    onToggleOption() {
-      this.filtered = this.posts.filter(item => item.category === this.option);
-      this.filteredUsers = this.filtered;
-    },
-    onFilter() {
-      if (this.search !== "") {
-        this.filtered = this.filteredUsers
-          .filter(item =>
-            `${item.firstName} ${item.lastName}`
-              .toLowerCase()
-              .includes(this.search.toLowerCase())
-          )
-          .sort((a, b) => {
-            if (a.publishedAt.localeCompare(b.publishedAt) < 0) {
-              return b;
-            } else return a;
+    addComment() {
+      this.comment.publishedAt = Date.now();
+      this.comment.content = this.text;
+      this.comment.title = this.$route.params.title;
+      this.comment.idPost = this.$route.params.id;
+      this.$store
+        .dispatch("appUtils/addPostComment", this.comment)
+        .then(res => {
+          Notify.create({
+            message: "Comment added!",
+            color: "positive"
           });
-      } else this.filtered = this.filteredUsers;
+        })
+        .catch(error => {
+          console.log(error);
+          Notify.create({
+            message: "Comment cannot be blank!",
+            color: "negative"
+          });
+        });
     }
   },
   created: function() {
     this.$store
-      .dispatch("appUtils/retrieveAllPosts")
+      .dispatch("appUtils/retrievePostComments", this.$route.params.id)
       .then(res => {
-        this.posts = this.$store.getters["appUtils/getAllPosts"];
-        this.filtered = this.posts;
+        this.comments = this.$store.getters["appUtils/getAllPostComments"];
       })
       .catch(err => {
         console.log(err);
       });
+  },
+    filters: {
+  filter: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.substr(0,10)
   }
+    }
 };
 </script>
 
@@ -123,8 +121,22 @@ export default {
 .text-subtitle1 {
   font-size: calc(10px + (20 - 14) * ((100vw - 300px) / (1600 - 300)));
 }
-.text-subtitle2 {
-  font-size: calc(13px + (20 - 14) * ((100vw - 300px) / (1600 - 300)));
+
+.q-page {
+  justify-content: center;
+  margin: 0 auto;
+  direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+#content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 550px;
+  align-items: center;
 }
 
 #list-content {
@@ -134,39 +146,13 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-#content {
+
+#addComment{
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 550px;
   align-items: center;
-}
-h1 {
-  position: relative;
-  font-size: calc(
-    14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))
-  ) !important;
-  line-height: calc(3.5em + (1.5 - 1.2) * ((100vw - 300px) / (1600 - 300)));
-  text-align: center;
-  letter-spacing: 0.5em;
-  width: fit-content;
-  color: #ffffff;
-  font-family: "Raleway", sans-serif;
-  font-size: 62px;
-  font-weight: 800;
-  line-height: 72px;
-  margin: 0 0 24px;
-  text-align: center;
-  text-transform: uppercase;
-}
-.q-page {
-  justify-content: center;
-  display: flex;
-  margin: 0 auto;
-  direction: column;
-  width: 100%;
-  height: 100%;
 }
 
 @media (min-width: 800px) {
@@ -174,32 +160,16 @@ h1 {
     width: 50%;
     padding: 2%;
     border-radius: 10px;
-    margin-bottom: 2%;
-  }
-  .select {
-    width: 40%;
-    margin-bottom: 1%;
-    background-color: rgba(250, 250, 250, 0.5);
-    border-radius: 5px;
   }
 
-  .search {
-    width: 60%;
-    margin-bottom: 1%;
-    background-color: rgba(250, 250, 250, 0.5);
-    border-radius: 5px;
-    margin-right: 2%;
+  .q-input {
+    width: 50%;
+    border-radius: 10px;
   }
-  #searching {
-    display: flex;
-    flex-direction: row;
-    width: 60%;
-    justify-content: center;
-    margin-bottom: 2%;
-  }
-  .avatar {
-    border-radius: 50%;
-    position: relative;
+
+  .q-btn {
+    width: 50%;
+    border-radius: 10px;
   }
 }
 
@@ -413,3 +383,4 @@ h1 {
   top: 0;
 }
 </style>
+

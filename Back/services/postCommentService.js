@@ -12,19 +12,6 @@ const comment={
         }
     },
 
-    getCommentById: async(id1)=>{
-        try{
-            const comment= await PostComment.findOne({
-                where:{
-                    id: id1
-                }
-            });
-            return comment;
-        } catch(err){
-            throw new Error(err.message);
-        }
-    },
-
 
     updateComment: async(id1, newContent, newTitle)=>{
         try{
@@ -52,7 +39,20 @@ const comment={
         }catch(err){
             throw new Error(err);
         }
-    }
+    },
+
+    getAll: async(id)=>{
+        try{
+            const comments=await PostComment.findAll({
+                where:{
+                    idPost: id,
+                }
+            });
+            return comments
+        }catch(err){
+            throw new Error(err);
+        }
+    },
 }
 
 module.exports=comment;

@@ -69,3 +69,7 @@ export function setAllUsers(state, data) {
   export function setAllMeetingImages(state, data) {
     state.allMeetingImages = data
   }
+
+  export function setAllPostComments(state, data) {
+    state.allPostComments = data
+  }

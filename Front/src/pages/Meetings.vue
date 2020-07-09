@@ -1,8 +1,8 @@
 <template>
   <q-page>
     <div id="content">
-      <h1>Meetings</h1>
-       <q-btn @click="addMeeting">Add Meeting</q-btn>
+      <h1>Events</h1>
+       <q-btn @click="addMeeting">Add Event</q-btn>
       <div v-for="meeting in totalMeetings" :key="meeting.id" id="list-content">
         <q-card
           style="background-color:#42455a"
@@ -10,7 +10,7 @@
           class="row"
         >
           <q-card-section class="col-8">
-            <div v-if= meeting.date class="text-subtitle1">Date: {{meeting.date}}</div>
+            <div v-if= meeting.date class="text-subtitle1">Date: {{meeting.date | filter}}</div>
           </q-card-section>
           <q-card-section class="col">
             <div
@@ -57,7 +57,14 @@ export default {
       .catch(error => {
         console.log(error.message)
       })
+  },
+  filters: {
+  filter: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.substr(0,10)
   }
+}
 }
 </script>
 

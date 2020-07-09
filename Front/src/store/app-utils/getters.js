@@ -54,4 +54,8 @@ export function getAllMeetingImages(state){
     return state.allMeetingImages
 }
 
+export function getAllPostComments(state){
+    return state.allPostComments
+}
+
 

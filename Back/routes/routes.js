@@ -35,13 +35,13 @@ router.post("/post/delete/:id", deletePost);
 router.get("/getposts", getPosts);
 
 const {
-    createComment, getComment, updateComment, deleteComment
+    createComment, updateComment, deleteComment, getPostComments
 } = require("../controllers/postCommentController");
 
 router.post("/addcomment", createComment);
-router.get("/getcomment/:id", getComment);
 router.put("/comment/update/:id",updateComment);
 router.post("/comment/delete/:id", deleteComment);
+router.get("/comment/gelall/:id", getPostComments)
 
 const {
     createImage, getImageProfile

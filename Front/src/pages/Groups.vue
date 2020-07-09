@@ -47,6 +47,7 @@
             <div class="text-subtitle1">Series: {{user.seria}}</div>
             <div class="text-subtitle1">Group: {{user.group}}</div>
             <div class="text-subtitle1">Specialisation: {{user.specialisation}}</div>
+            <div class="text-subtitle1">Promotion: {{user.promotion}}</div>
           </q-card-section>
         </q-card>
       </div>
@@ -67,6 +68,7 @@ export default {
         'Series',
         'Promotion',
         'Specialisation',
+        'General',
       ],
       users:[],
     }
@@ -98,11 +100,15 @@ export default {
           item.promotion === this.$store.getters["appUtils/getUserDetails"].promotion
         )
         this.filteredUsers = this.filtered
-      } else {
+      } else if (this.option.match('Promotion')) {
         this.filtered = this.users.filter(item =>
           item.promotion === this.$store.getters["appUtils/getUserDetails"].promotion
         )
         this.filteredUsers = this.filtered
+      } 
+      else {
+        this.filtered=this.users
+        this.filteredUsers = this.users
       }
     },
     onFilter() {
@@ -126,9 +132,7 @@ export default {
       .dispatch("appUtils/retrieveAllUsers")
       .then(res => {
         this.users = this.$store.getters["appUtils/getAllUsers"]
-        this.filtered=this.users.filter(item =>
-          item.promotion === this.$store.getters["appUtils/getUserDetails"].promotion
-        )
+        this.filtered=this.users
         this.filteredUsers=this.filtered
       })
       .catch(err => {

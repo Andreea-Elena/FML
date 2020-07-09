@@ -64,6 +64,11 @@
 
 <script>
 const menuList = [
+    {
+    icon: "find_in_page",
+    label: "Explore",
+    to: "/explore"
+  },
   {
     icon: "all_inbox",
     label: "Write Post",
@@ -71,23 +76,18 @@ const menuList = [
   },
     {
     icon: "home",
-    label: "View profile",
+    label: "My profile",
     to: "/profile"
   },
-  {
-    icon: "find_in_page",
-    label: "Explore",
-    to: "/explore"
+    {
+    icon: "group",
+    label: "Members",
+    to: "/groups"
   },
   {
     icon: "notifications",
-    label: "Meetings",
+    label: "Events",
     to: "/meetings"
-  },
-  {
-    icon: "group",
-    label: "Groups",
-    to: "/groups"
   },
   {
     icon: "exit_to_app",

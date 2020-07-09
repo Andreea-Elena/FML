@@ -193,3 +193,32 @@ export function retrieveMeetingImages(context,id){
       })
   })
 }
+
+export function retrievePostComments(context,id){
+  return new Promise((resolve, reject)=>{
+    axios
+      .get("http://localhost:8080/api/comment/gelall/"+id)
+      .then(response=>{
+        const data=response.data
+        context.commit("setAllPostComments",data)
+        resolve(response)
+      })
+      .catch(error =>{
+        console.log(error)
+        reject(error)
+      })
+  })
+}
+
+export function addPostComment(context, data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('http://localhost:8080/api/addcomment', data)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
