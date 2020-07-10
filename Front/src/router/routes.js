@@ -32,7 +32,15 @@ const routes = [
         meta: {
           requiresVisitor: true
         }
-      }
+      },
+      {
+        path: "/resetpassword/:email",
+        name: "resetpassword",
+        component: () => import("pages/PasswordReset.vue"),
+        meta: {
+          requiresVisitor: true
+        }
+      },
     ]
   },
   {

@@ -70,7 +70,7 @@ export default {
   methods: {
     async submit() {
       this.error = "";
-      if(this.$refs.form.validate())
+      if(this.$refs.form.validate()){
       this.$store
         .dispatch("appUtils/retrieveToken", {
           username: this.username,
@@ -82,6 +82,7 @@ export default {
         .catch(error => {
           this.error = error.message;
         });
+      }
     }
   }
 };

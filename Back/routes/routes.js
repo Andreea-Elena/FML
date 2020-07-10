@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    createUser, getUser, getUser1, changePassword, deleteUser, validatePass
+    createUser, getUser, getUser1, changePassword, deleteUser, validatePass, sendEmail
 } = require("../controllers/userAuthController");
 
 router.post("/adduser", createUser);
@@ -11,10 +11,11 @@ router.get("/getuserlogin/:username", getUser1);
 router.put("/user/password/:id", changePassword);
 router.post("/user/delete/:id", deleteUser);
 router.get("/user/validate/:id/:password", validatePass)
+router.get("/user/forgot/:email", sendEmail)
 
 
 const {
-    createDetails, getDetails, updateDetails, getDetailsByAuthId, getDetailsByAuthUsername, getAllUsers
+    createDetails, getDetails, updateDetails, getDetailsByAuthId, getDetailsByAuthUsername, getAllUsers, getDetailsByEmail
 } = require("../controllers/userDetailsController");
 
 router.post("/adddetails", createDetails);
@@ -23,6 +24,7 @@ router.put("/user/update/:id", updateDetails);
 router.get("/getdetails/auth/:id", getDetailsByAuthId);
 router.get("/getdetails/authUser/:username", getDetailsByAuthUsername)
 router.get("/getAllUsers",getAllUsers)
+router.get("/getdetails/authUserEmail/:email", getDetailsByEmail)
 
 const {
     createPost, getPost, updatePost, deletePost, getPosts
@@ -44,11 +46,12 @@ router.post("/comment/delete/:id", deleteComment);
 router.get("/comment/gelall/:id", getPostComments)
 
 const {
-    createImage, getImageProfile
+    createImage, getImageProfile, getImagesProfile
 } = require("../controllers/imageController");
 
 router.post("/addimage", createImage);
 router.get("/getimageprofile/:id", getImageProfile);
+router.get("/getimagesprofile",getImagesProfile)
 
 const {
     createPostImage, getPostImage

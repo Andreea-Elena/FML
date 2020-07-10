@@ -34,7 +34,7 @@ const userAuth={
             });
             return user;
         }catch(err){
-            throw new Error(err);
+            throw new Error(err.message);
         }
     },
 
@@ -77,7 +77,35 @@ const userAuth={
         }catch(err){
             throw new Error(err);
         }
-    }
+    },
+    sendEmail: async(email1)=>{
+        var nodemailer = require('nodemailer');
+    var smtpTransport = require('nodemailer-smtp-transport');
+    
+    var transporter = nodemailer.createTransport(smtpTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      auth: {
+        user: 'keepintouchsupp@gmail.com',
+        pass: 'keepintouch32'
+      }
+    }));
+    
+    var mailOptions = {
+      from: 'keepintouchsupp@gmail.com',
+      to: email1,
+      subject: 'Password reset',
+      html: 'Hi!<br> You recently requested to reset your password for your Keep in Touch account. Click the following link in order to reset it. <br> http://localhost:8081/#/resetpassword/'+email1+'<br>Thank you for the patience!'
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });  
+    }   
 }
 
 module.exports=userAuth;

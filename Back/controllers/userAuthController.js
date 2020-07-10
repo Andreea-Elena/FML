@@ -1,5 +1,6 @@
 const UserAuthService=require("../services/userAuthService");
 const jwt=require('jsonwebtoken');
+const nodemailer = require('nodemailer')
 
 const createUser = async(req,res, next)=>{
     const user=req.body;
@@ -29,7 +30,7 @@ const getUser1=async(req, res)=>{
     if(username){
         try{
         const user=await UserAuthService.getUserByUsername(username);
-        if(user)
+        if(user){
         jwt.sign({user}, 'accesstoken',(err,accesstoken)=>{
             res.status(200).send({
                 id: user.id,
@@ -37,7 +38,8 @@ const getUser1=async(req, res)=>{
                 password: user.password,
                 access_token: accesstoken
             });
-        })
+        })} else
+          res.status(401).send(err);;
     }catch(err){
         res.status(401).send(err);
     }
@@ -74,10 +76,24 @@ const validatePass=async(req, res)=>{
             message: "Valid password!"
         })
         else{
-            res.status(200).send({
+            res.status(400).send({
                 message: "Not a valid password!"
             })
         }
+    }
+}
+
+const sendEmail=async(req,res) =>{
+    const email=req.params.email
+    try{
+        UserAuthService.sendEmail(email);
+        res.status(200).send({
+            message: "Email sent!"
+        })
+    } catch(err){
+        res.status(400).send({
+            message: "Email cannot be sent!"
+        })
     }
 }
 
@@ -90,5 +106,6 @@ module.exports={
     getUser1, 
     changePassword,
     deleteUser,
-    validatePass
+    validatePass,
+    sendEmail
 }

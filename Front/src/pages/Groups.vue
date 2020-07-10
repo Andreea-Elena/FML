@@ -38,7 +38,7 @@
           <q-card-section class="col">
             <q-img
               class="avatar"
-              :src="'\\statics\\users\\picture-'+user.id+'-1.jpg'"
+              :src="getImage(user.id)"
               style="width:150px; height:150px"
             />
           </q-card-section>
@@ -71,6 +71,8 @@ export default {
         'General',
       ],
       users:[],
+      image:"",
+      images:[],
     }
   },
   methods: {
@@ -126,9 +128,15 @@ export default {
           })
       }else this.filtered = this.filteredUsers
     },
+    getImage(id){
+      const image=this.images.filter(item=>item.idUser===id)
+      if(image.length>0){
+      return image[0].photo
+      }else return "..\\statics\\users\\default-profile.jpg"
+    }
   },
-  created: function() {
-    this.$store
+  created: async function() {
+    await this.$store
       .dispatch("appUtils/retrieveAllUsers")
       .then(res => {
         this.users = this.$store.getters["appUtils/getAllUsers"]
@@ -138,6 +146,16 @@ export default {
       .catch(err => {
         console.log(err)
       })
+
+      await this.$store
+      .dispatch("appUtils/retrieveAllUserImages")
+      .then(res => {
+        this.images = this.$store.getters["appUtils/getAllUserImages"]
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
   }
 }
 </script>

@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define("postImage", {      
-        photo: DataTypes.STRING,
+        photo: {type: DataTypes.STRING,
+            allowNull: false},
         idPost: DataTypes.INTEGER,
     });
 };

@@ -48,7 +48,9 @@
         >
           <q-card-section class="col-6">
             <div class="text-subtitle1">Content: {{ comment.content }}</div>
-            <div class="text-subtitle1">Date: {{ comment.publishedAt | filter }}</div>
+            <div class="text-subtitle1">
+              Date: {{ comment.publishedAt | filter }}
+            </div>
           </q-card-section>
         </q-card>
       </div>
@@ -84,6 +86,17 @@ export default {
             message: "Comment added!",
             color: "positive"
           });
+
+          this.$store
+            .dispatch("appUtils/retrievePostComments", this.$route.params.id)
+            .then(res => {
+              this.comments = this.$store.getters[
+                "appUtils/getAllPostComments"
+              ];
+            })
+            .catch(err => {
+              console.log(err);
+            });
         })
         .catch(error => {
           console.log(error);
@@ -104,13 +117,13 @@ export default {
         console.log(err);
       });
   },
-    filters: {
-  filter: function (value) {
-    if (!value) return ''
-    value = value.toString()
-    return value.substr(0,10)
-  }
+  filters: {
+    filter: function(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.substr(0, 10);
     }
+  }
 };
 </script>
 
@@ -147,7 +160,7 @@ export default {
   align-items: center;
 }
 
-#addComment{
+#addComment {
   width: 100%;
   height: 100%;
   display: flex;
@@ -383,4 +396,3 @@ export default {
   top: 0;
 }
 </style>
-

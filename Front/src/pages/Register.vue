@@ -108,7 +108,19 @@
           </template>
         </q-input>
 
+        <div class="q-md" style="max-width: 250px">
+          <q-select
+            v-model="model"
+            validate-on-blur
+            ref="role"
+            :options="options"
+            label="Role"
+            :rules="[val => !!val || 'Field is required']"
+          />
+        </div>
+
         <q-input
+          v-if="model === 'Student'"
           filled
           v-model="group"
           label="Group*"
@@ -118,6 +130,7 @@
 
         <div class="q-md" style="max-width: 250px">
           <q-select
+            v-if="model === 'Student'"
             v-model="seria"
             validate-on-blur
             :options="serii"
@@ -126,6 +139,7 @@
         </div>
         <div class="q-md" style="max-width: 250px">
           <q-select
+            v-if="model === 'Student'"
             v-model="specialisation"
             validate-on-blur
             :options="specialisations"
@@ -136,22 +150,12 @@
         </div>
         <div class="q-md" style="max-width: 250px">
           <q-select
+            v-if="model === 'Student'"
             v-model="promotion"
             validate-on-blur
             :options="promotions"
             label="Promotion"
             ref="promotion"
-            :rules="[val => !!val || 'Field is required']"
-          />
-        </div>
-
-        <div class="q-md" style="max-width: 250px">
-          <q-select
-            v-model="model"
-            validate-on-blur
-            ref="role"
-            :options="options"
-            label="Role"
             :rules="[val => !!val || 'Field is required']"
           />
         </div>
@@ -182,32 +186,6 @@
             Terms & conditions
           </a>
         </q-item>
-        <q-dialog
-          v-model="basic"
-          transition-show="rotate"
-          transition-hide="rotate"
-          class="absolute-center"
-        >
-          <q-card>
-            <q-card-section>
-              <div class="text-h6">Terms of Agreement</div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <p v-for="n in 15" :key="n">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
-                repellendus sit voluptate voluptas eveniet porro. Rerum
-                blanditiis perferendis totam, ea at omnis vel numquam
-                exercitationem aut, natus minima, porro labore.
-              </p>
-            </q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn flat label="Decline" color="primary" v-close-popup />
-              <q-btn flat label="Accept" color="primary" v-close-popup />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
 
         <q-dialog v-model="fixed">
           <q-card>
@@ -229,8 +207,20 @@
             <q-separator />
 
             <q-card-actions align="right">
-              <q-btn flat label="Decline" color="primary" v-close-popup />
-              <q-btn flat label="Accept" color="primary" v-close-popup />
+              <q-btn
+                flat
+                label="Decline"
+                @click="decline"
+                color="primary"
+                v-close-popup
+              />
+              <q-btn
+                flat
+                label="Accept"
+                @click="accept"
+                color="primary"
+                v-close-popup
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -289,23 +279,40 @@ export default {
       this.$refs.username.validate();
       this.$refs.password.validate();
       this.$refs.confPassword.validate();
-      this.$refs.specialisation.validate();
-      this.$refs.promotion.validate();
       this.$refs.role.validate();
-      if (
+      if (this.model === "Student") {
+        this.$refs.specialisation.validate();
+        this.$refs.promotion.validate();
+      }
+
+      if (this.model === "Student") {
+        if (
+          this.$refs.form.hasError ||
+          this.$refs.firstName.hasError ||
+          this.$refs.lastName.hasError ||
+          this.$refs.phone.hasError ||
+          this.$refs.email.hasError ||
+          this.$refs.username.hasError ||
+          this.$refs.password.hasError ||
+          this.$refs.confPassword.hasError ||
+          this.$refs.specialisation.hasError ||
+          this.$refs.promotion.hasError ||
+          this.$refs.role.hasError ||
+          this.customModel === "No"
+        ) {
+          gotError = true;
+        }
+      } else {
         this.$refs.form.hasError ||
-        this.$refs.firstName.hasError ||
-        this.$refs.lastName.hasError ||
-        this.$refs.phone.hasError ||
-        this.$refs.email.hasError ||
-        this.$refs.username.hasError ||
-        this.$refs.password.hasError ||
-        this.$refs.confPassword.hasError ||
-        this.$refs.specialisation.hasError ||
-        this.$refs.promotion.hasError ||
-        this.$refs.role.hasError 
-      ) {
-        gotError = true;
+          this.$refs.firstName.hasError ||
+          this.$refs.lastName.hasError ||
+          this.$refs.phone.hasError ||
+          this.$refs.email.hasError ||
+          this.$refs.username.hasError ||
+          this.$refs.password.hasError ||
+          this.$refs.confPassword.hasError ||
+          this.$refs.role.hasError ||
+          this.customModel === "No";
       }
       return gotError;
     },
@@ -313,13 +320,13 @@ export default {
       this.error = "";
       this.flag = null;
       let role = this.model === "Student" ? 2 : 1;
-      if (!this.hasErrors()) {
+      if (!this.hasErrors() && this.customModel === "Yes") {
         try {
           await RegisterService.register({
             username: this.username,
             password: this.password,
             idRole: role
-          })
+          });
           await axios
             .get("http://localhost:8080/api/getuserlogin/" + this.username)
             .then(response => (this.flag = response.data.id));
@@ -336,13 +343,22 @@ export default {
             idUserAuth: this.flag
           });
           alert("User created successfully");
+          this.$router.push({ name: "login" });
         } catch (error) {
           this.error = error.response.data.message;
           if (this.flag != null)
             await RegisterService.deleteUserAuth(this.flag);
           console.log(error);
         }
+      } else if (this.customModel === "No") {
+        this.error = "You must accept terms & conditions";
       }
+    },
+    accept() {
+      this.customModel = "Yes";
+    },
+    decline() {
+      this.customModel = "No";
     }
   }
 };

@@ -44,7 +44,13 @@ const getImageProfile = async (req, res) => {
   }
 };
 
+const getImagesProfile = async (req, res) => {
+    const images = await ImageService.getImages();
+    res.status(200).send(images);
+};
+
 module.exports = {
   createImage,
   getImageProfile,
+  getImagesProfile
 };

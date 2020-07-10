@@ -32,15 +32,11 @@
           <div class="container">
             <h3 class="title" v-if="user.email">Contact</h3>
             <div class="description">
-            <h5>
-              Email: {{ user.email }}
-            </h5>
-            <h5>
-              Tel: {{ user.phone }}
-            </h5>
-            <h5 v-if="user.facebook" :ref="user.facebook">
-              Facebook
-            </h5>
+              <h5>Email: {{ user.email }}</h5>
+              <h5>Tel: {{ user.phone }}</h5>
+              <a v-if="user.facebook" :href="user.facebook">
+                Facebook
+              </a>
             </div>
           </div>
         </div>
@@ -74,15 +70,24 @@ export default {
         phone: "",
         facebook: ""
       },
-      users: []
+      users: [],
+      images: []
     };
   },
   methods: {
     settings() {
       this.$router.push({ name: "settings" });
-    }
+    },
   },
-  created: function() {
+  created: async function() {
+    await this.$store
+      .dispatch("appUtils/retrieveAllUserImages")
+      .then(res => {
+        this.images = this.$store.getters["appUtils/getAllUserImages"];
+      })
+      .catch(err => {
+        console.log(err);
+      });
     if (!this.$route.params.id) {
       this.user.imgSrc = this.$store.getters["appUtils/getProfileImage"];
       this.user.name =
@@ -110,7 +115,10 @@ export default {
       this.users = this.$store.getters["appUtils/getAllUsers"];
       const user = this.users.find(item => item.id === this.$route.params.id);
 
-      this.imgSrc = "/statics/users/picture-" + user.id + "-1.jpg";
+      const image = this.images.filter(item => item.idUser === user.id);
+      if (image.length > 0){
+      this.user.imgSrc = image[0].photo;
+      }else this.user.imgSrc="..\\statics\\users\\default-profile.jpg"
 
       this.user.name = user.firstName + " " + user.lastName;
       this.user.seria = user.seria;

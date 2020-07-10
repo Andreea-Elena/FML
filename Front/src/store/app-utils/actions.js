@@ -7,7 +7,7 @@ import state from "./state";
 
 export async function retrieveToken(context, credentials) {
   return new Promise((resolve, reject) => {
-    axios
+     axios
       .get("http://localhost:8080/api/getuserlogin/" + credentials.username)
       .then(response => {
         const tokenId = {
@@ -23,6 +23,10 @@ export async function retrieveToken(context, credentials) {
           resolve(response);
         } else {
           reject({ message: "Password isn't correct" });
+        }
+        console.log(response)
+        if(response===null){
+          reject({ message: "Username isn't correct" });
         }
       })
       .catch(error => {
@@ -218,6 +222,51 @@ export function addPostComment(context, data) {
         resolve(response)
       })
       .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export function sendEmail(context, data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get('http://localhost:8080/api/user/forgot/'+data)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export async function retrieveUserDetails2(context,email) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("http://localhost:8080/api//getdetails/authUserEmail/" + email)
+      .then(response => {
+        const user = response.data
+        console.log(user)
+        resolve(user);
+      })
+      .catch(error => {
+        console.log(error);
+        reject({ message: "User details doesn't exist" });
+      });
+  });
+}
+
+export function retrieveAllUserImages(context){
+  return new Promise((resolve, reject)=>{
+    axios
+      .get("http://localhost:8080/api//getimagesprofile")
+      .then(response=>{
+        const data=response.data
+        context.commit("setAllUserImages",data)
+        resolve(response)
+      })
+      .catch(error =>{
+        console.log(error)
         reject(error)
       })
   })

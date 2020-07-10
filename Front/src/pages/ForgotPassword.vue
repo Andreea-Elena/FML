@@ -2,17 +2,18 @@
   <q-card>
     <q-form>
       <h4 style="text-align: center">
-        Find your KIT accound
+        Find your KIT account
       </h4>
       <p>
-        Please enter your email address or username.
+        Please enter your email address.
       </p>
-      <q-input label="Email/username" type="text" name="email"> </q-input>
+      <q-input label="Email" type="text" name="email" v-model="email">
+      </q-input>
       <div class="buttons">
         <q-btn
           label="Recover password"
           color="primary"
-          @click="persistent = true"
+          @click="persistent = true && sendEmail()"
         />
       </div>
       <q-dialog
@@ -35,7 +36,10 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-      <q-tabs class="text-center q-pa-none" style="max-width:135px; margin-left:31%">
+      <q-tabs
+        class="text-center q-pa-none"
+        style="max-width:135px; margin-left:31%"
+      >
         <q-route-tab to="/login" label="Back to login" />
       </q-tabs>
     </q-form>
@@ -43,11 +47,45 @@
 </template>
 
 <script>
+import { Notify } from "quasar";
 export default {
   data() {
     return {
-      persistent: false
+      persistent: false,
+      email: "",
+      users: []
     };
+  },
+  methods: {
+    sendEmail() {
+      const user = this.users.filter(item => item.email == this.email);
+      if (user.length == 1) {
+        this.$store.dispatch("appUtils/sendEmail", this.email).then(res => {
+          Notify.create({
+            message: "Email sent!",
+            color: "positive"
+          });
+          this.$router.push({
+            name: "home"
+          });
+        });
+      }else {
+        Notify.create({
+            message: "This email doesn't exist!",
+            color: "negative"
+          });
+      }
+    }
+  },
+  created: function() {
+    this.$store
+      .dispatch("appUtils/retrieveAllUsers")
+      .then(res => {
+        this.users = this.$store.getters["appUtils/getAllUsers"];
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>

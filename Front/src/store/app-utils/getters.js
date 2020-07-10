@@ -58,4 +58,8 @@ export function getAllPostComments(state){
     return state.allPostComments
 }
 
+export function getAllUserImages(state){
+    return state.allUserImages
+}
+
 

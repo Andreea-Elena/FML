@@ -69,11 +69,20 @@ const getAllUsers=async(req, res)=>{
     }
 }
 
+const getDetailsByEmail=async(req, res)=>{
+    const email=req.params.email;
+    if(email){
+        const user=await UserDetailsService.getDetailsByEmail(email);
+        res.status(200).send(user);
+    }
+};
+
 module.exports={
     createDetails,
     getDetails,
     updateDetails,
     getDetailsByAuthId,
     getDetailsByAuthUsername,
-    getAllUsers
+    getAllUsers,
+    getDetailsByEmail
 }

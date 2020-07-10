@@ -126,7 +126,7 @@
                       type="file"
                       filled
                       style="max-width: 300px"
-                      accept=".jpg, image/*"
+                      accept=".jpg"
                       @change="onFileSelected"
                     />
                   </div>

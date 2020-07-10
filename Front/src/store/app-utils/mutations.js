@@ -73,3 +73,7 @@ export function setAllUsers(state, data) {
   export function setAllPostComments(state, data) {
     state.allPostComments = data
   }
+
+  export function setAllUserImages(state, data) {
+    state.allUserImages = data
+  }

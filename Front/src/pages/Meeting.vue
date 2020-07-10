@@ -22,6 +22,7 @@
           :key="meetingImage.id"
           id="list-content"
         >
+                  <a :href="meetingImage.photo" download>Download</a>
           <q-card
             style="position: relative; width: 300px; height: 300px; overflow: hidden; background-color:black"
           >
@@ -37,6 +38,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -47,36 +49,39 @@ export default {
       meetingImage: {
         photo: null,
         idMeeting: null
-      }
+      },
+      images:[],
     };
   },
   methods: {
     onFileSelected(event) {
       this.selectedFile = event.target.files;
     },
-    addImages() {
+    async addImages() {
       for (var i = 0; i < this.selectedFile.length; i++) {
         const fd = new FormData();
         this.meetingImage.photo = this.selectedFile[i];
         this.meetingImage.idMeeting = this.$route.params.idMeeting;
-        this.$store.dispatch("appUtils/addMeetingImage", this.meetingImage);
+        await this.$store.dispatch(
+          "appUtils/addMeetingImage",
+          this.meetingImage
+        );
       }
-      this.$store
+      await this.$store
         .dispatch(
           "appUtils/retrieveMeetingImages",
           this.$route.params.idMeeting
         )
         .then(res => {
-          const meetingImages = this.$store.getters[
-            "appUtils/getAllMeetingImages"
-          ];
-          this.all = meetingImages;
+          this.all = this.$store.getters["appUtils/getAllMeetingImages"];
+          console.log(this.all);
+          this.allMeetingImages = this.all;
         })
         .catch(err => {
           console.log(err);
         });
       this.allMeetingImages = this.all;
-    }
+    },
   },
   created: function() {
     this.$store
@@ -87,6 +92,9 @@ export default {
         ];
         this.all = meetingImages;
         this.allMeetingImages = this.all;
+              this.all.forEach(element => {
+                this.images.push(element.photo)
+      });
       })
       .catch(err => {
         console.log(err);
@@ -138,5 +146,4 @@ h1 {
   min-height: 550px;
   align-items: center;
 }
-
 </style>
