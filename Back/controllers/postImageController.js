@@ -50,7 +50,13 @@ const getPostImage = async (req, res) => {
   }
 };
 
+const getImagesPost = async (req, res) => {
+  const images = await ImageService.getImages();
+  res.status(200).send(images);
+};
+
 module.exports = {
   createPostImage,
   getPostImage,
+  getImagesPost,
 };

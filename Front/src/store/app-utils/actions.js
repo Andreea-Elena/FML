@@ -271,3 +271,19 @@ export function retrieveAllUserImages(context){
       })
   })
 }
+
+export function retrieveAllPostImages(context){
+  return new Promise((resolve, reject)=>{
+    axios
+      .get("http://localhost:8080/api//getimagespost")
+      .then(response=>{
+        const data=response.data
+        context.commit("setAllPostImages",data)
+        resolve(response)
+      })
+      .catch(error =>{
+        console.log(error)
+        reject(error)
+      })
+  })
+}

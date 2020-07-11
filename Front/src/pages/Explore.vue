@@ -21,32 +21,32 @@
       </div>
 
       <div v-for="post in filtered" :key="post.id" id="list-content">
-        <div class="projcard-container"  @click="redirectToPost(post)">
+        <div
+          class="projcard-container"
+          @click="redirectToPost(post)"
+          v-if="check(post)"
+        >
           <div class="projcard projcard-grey">
             <div class="projcard-innerbox">
-              <img
-                class="projcard-img"
-                :src="
-                  '\\statics\\posts\\picture-' +
-                    post.id +
-                    '-' +
-                    post.idUser +
-                    '.jpg'
-                "
-                alt="This post contains no picture"
-              />
+              <img class="projcard-img" :src="getImage(post.id)" alt="" />
               <div class="projcard-textbox">
                 <div class="projcard-title">{{ post.title }}</div>
-                <div class="projcard-subtitle">
-                  This post belongs to the category
-                  {{ post.category }}
-                </div>
+                <a
+                  class="projcard-subtitle"
+                  @click="redirectToProfile(post.idUser)"
+                >
+                  by {{ getUser(post.idUser) }}
+                </a>
                 <div class="projcard-bar"></div>
                 <div class="projcard-description">
                   {{ post.content }}
                 </div>
                 <div class="projcard-tagbox">
                   <span class="projcard-tag">{{ post.category }}</span>
+                  <span class="projcard-tag">{{ post.visibility }}</span>
+                  <span class="projcard-tag">{{
+                    post.publishedAt | filter
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -65,21 +65,36 @@ export default {
       option: "General",
       filteredPosts: [],
       options: ["Out of topic", "Jobs", "Academic", "Hobbies"],
-      posts: []
+      posts: [],
+      images: [],
+      image: null,
+      users: []
     };
   },
   methods: {
     redirectToPost(user) {
+      const image1 = this.images.filter(item => item.idPost === user.id);
+      if (image1.length > 0) {
+        this.image = image1[0].photo;
+      } else this.image = "..\\statics\\posts\\default-post.jpg";
       this.$router.push({
         name: "post",
         params: {
           id: user.id,
           content: user.content,
-          date: user.date,
+          date: user.publishedAt,
           category: user.category,
           idUser: user.idUser,
-          title: user.title
+          title: user.title,
+          photo: this.image,
+          visibility: user.visibility
         }
+      });
+    },
+    redirectToProfile(idUser) {
+      this.$router.push({
+        name: "profile",
+        params: { id: idUser }
       });
     },
     onToggleOption() {
@@ -100,6 +115,28 @@ export default {
             } else return a;
           });
       } else this.filtered = this.filteredUsers;
+    },
+    getImage(id) {
+      const image = this.images.filter(item => item.idPost === id);
+      if (image.length > 0) {
+        return image[0].photo;
+      } else return "..\\statics\\posts\\default-post.jpg";
+    },
+    getUser(id) {
+      const user = this.users.filter(item => item.id === id);
+      if (user[0]) return user[0].firstName + " " + user[0].lastName;
+    },
+    check(post) {
+      const user = this.users.filter(item => item.id === post.idUser);
+      if (user[0]) {
+        if(post.visibility==='General')
+        return true;
+        if ((user[0].promotion === this.$store.getters["appUtils/getUserDetails"].promotion))
+        if((post.visibility.includes('Series') && user[0].seria.split(" ") == this.$store.getters["appUtils/getUserDetails"].seria)
+        || ((post.visibility.includes('Group') && user[0].group.split(" ") == this.$store.getters["appUtils/getUserDetails"].group)))
+          return true;
+      }
+      return false;
     }
   },
   created: function() {
@@ -112,6 +149,31 @@ export default {
       .catch(err => {
         console.log(err);
       });
+
+    this.$store
+      .dispatch("appUtils/retrieveAllPostImages")
+      .then(res => {
+        this.images = this.$store.getters["appUtils/getAllPostImages"];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    this.$store
+      .dispatch("appUtils/retrieveAllUsers")
+      .then(res => {
+        this.users = this.$store.getters["appUtils/getAllUsers"];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  filters: {
+    filter: function(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.substr(0, 10);
+    }
   }
 };
 </script>

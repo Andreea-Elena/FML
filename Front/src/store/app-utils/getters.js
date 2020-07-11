@@ -62,4 +62,8 @@ export function getAllUserImages(state){
     return state.allUserImages
 }
 
+export function getAllPostImages(state){
+    return state.allPostImages
+}
+
 

@@ -16,15 +16,20 @@
             <q-icon color="primary" name="search" />
           </template>
         </q-input>
-         <q-select
+        <q-select
           v-model="option"
           :options="options"
           label="Options"
           class="select"
           @input="onToggleOption"
+          v-if="valid()"
         >
           <template v-slot:prepend>
-            <q-icon name="category" class="cursor-pointer" style="margin-left:5px;" />
+            <q-icon
+              name="category"
+              class="cursor-pointer"
+              style="margin-left:5px;"
+            />
           </template>
         </q-select>
       </div>
@@ -43,11 +48,22 @@
             />
           </q-card-section>
           <q-card-section class="col-6">
-            <div class="text-h6">{{user.firstName}} {{user.lastName}}</div>
-            <div class="text-subtitle1">Series: {{user.seria}}</div>
-            <div class="text-subtitle1">Group: {{user.group}}</div>
-            <div class="text-subtitle1">Specialisation: {{user.specialisation}}</div>
-            <div class="text-subtitle1">Promotion: {{user.promotion}}</div>
+            <div class="text-h6">{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="text-subtitle1" v-if="user.promotion">
+              Series: {{ user.seria }}
+            </div>
+            <div class="text-subtitle1" v-if="user.promotion">
+              Group: {{ user.group }}
+            </div>
+            <div class="text-subtitle1" v-if="user.promotion">
+              Specialisation: {{ user.specialisation }}
+            </div>
+            <div class="text-subtitle1" v-if="user.promotion">
+              Promotion: {{ user.promotion }}
+            </div>
+            <div class="text-subtitle1" v-if="!user.promotion">
+              Functia: Profesor
+            </div>
           </q-card-section>
         </q-card>
       </div>
@@ -60,62 +76,67 @@ export default {
   data: function() {
     return {
       filtered: [],
-      option: 'General',
-      search: '',
-      filteredUsers:[],
-       options: [
-        'Group',
-        'Series',
-        'Promotion',
-        'Specialisation',
-        'General',
-      ],
-      users:[],
-      image:"",
-      images:[],
-    }
+      option: "General",
+      search: "",
+      filteredUsers: [],
+      options: ["Group", "Series", "Promotion", "Specialisation", "General"],
+      users: [],
+      image: "",
+      images: []
+    };
   },
   methods: {
-    redirectToProfile(user){
+    redirectToProfile(user) {
       //this.$store.dispatch('selectRequest', user)
       this.$router.push({
-        name: 'profile',
+        name: "profile",
         params: { id: user.id }
-      })
+      });
     },
     onToggleOption() {
-      if (this.option.match('Group')) {
-        this.filtered = this.users.filter(item =>
-          item.group === this.$store.getters["appUtils/getUserDetails"].group &&
-          item.promotion === this.$store.getters["appUtils/getUserDetails"].promotion
-        )
-        this.filteredUsers = this.filtered
-      } else if (this.option.match('Series')) {
-        this.filtered = this.users.filter(item =>
-          item.seria.match( this.$store.getters["appUtils/getUserDetails"].seria) &&
-          item.promotion === this.$store.getters["appUtils/getUserDetails"].promotion
-        )
-        this.filteredUsers = this.filtered
-      } else if (this.option.match('Specialisation')) {
-        this.filtered = this.users.filter(item =>
-          item.specialisation === this.$store.getters["appUtils/getUserDetails"].specialisation &&
-          item.promotion === this.$store.getters["appUtils/getUserDetails"].promotion
-        )
-        this.filteredUsers = this.filtered
-      } else if (this.option.match('Promotion')) {
-        this.filtered = this.users.filter(item =>
-          item.promotion === this.$store.getters["appUtils/getUserDetails"].promotion
-        )
-        this.filteredUsers = this.filtered
-      } 
-      else {
-        this.filtered=this.users
-        this.filteredUsers = this.users
+      if (this.option.match("Group")) {
+        this.filtered = this.users.filter(
+          item =>
+            item.group ===
+              this.$store.getters["appUtils/getUserDetails"].group &&
+            item.promotion ===
+              this.$store.getters["appUtils/getUserDetails"].promotion
+        );
+        this.filteredUsers = this.filtered;
+      } else if (this.option.match("Series")) {
+        this.filtered = this.users.filter(
+          item =>
+            item.seria.match(
+              this.$store.getters["appUtils/getUserDetails"].seria
+            ) &&
+            item.promotion ===
+              this.$store.getters["appUtils/getUserDetails"].promotion
+        );
+        this.filteredUsers = this.filtered;
+      } else if (this.option.match("Specialisation")) {
+        this.filtered = this.users.filter(
+          item =>
+            item.specialisation ===
+              this.$store.getters["appUtils/getUserDetails"].specialisation &&
+            item.promotion ===
+              this.$store.getters["appUtils/getUserDetails"].promotion
+        );
+        this.filteredUsers = this.filtered;
+      } else if (this.option.match("Promotion")) {
+        this.filtered = this.users.filter(
+          item =>
+            item.promotion ===
+            this.$store.getters["appUtils/getUserDetails"].promotion
+        );
+        this.filteredUsers = this.filtered;
+      } else {
+        this.filtered = this.users;
+        this.filteredUsers = this.users;
       }
     },
     onFilter() {
-      if (this.search !== ''){
-        this.filtered=this.filteredUsers
+      if (this.search !== "") {
+        this.filtered = this.filteredUsers
           .filter(item =>
             `${item.firstName} ${item.lastName}`
               .toLowerCase()
@@ -123,41 +144,44 @@ export default {
           )
           .sort((a, b) => {
             if (a.firstName.localeCompare(b.firstName) === 0) {
-              return a.lastName.localeCompare(b.lastName)
-            } else return a.firstName.localeCompare(b.firstName)
-          })
-      }else this.filtered = this.filteredUsers
+              return a.lastName.localeCompare(b.lastName);
+            } else return a.firstName.localeCompare(b.firstName);
+          });
+      } else this.filtered = this.filteredUsers;
     },
-    getImage(id){
-      const image=this.images.filter(item=>item.idUser===id)
-      if(image.length>0){
-      return image[0].photo
-      }else return "..\\statics\\users\\default-profile.jpg"
+    getImage(id) {
+      const image = this.images.filter(item => item.idUser === id);
+      if (image.length > 0) {
+        return image[0].photo;
+      } else return "..\\statics\\users\\default-profile.jpg";
+    },
+    valid() {
+      if (this.$store.getters["appUtils/getUserDetails"].promotion)
+        return false;
     }
   },
   created: async function() {
     await this.$store
       .dispatch("appUtils/retrieveAllUsers")
       .then(res => {
-        this.users = this.$store.getters["appUtils/getAllUsers"]
-        this.filtered=this.users
-        this.filteredUsers=this.filtered
+        this.users = this.$store.getters["appUtils/getAllUsers"];
+        this.filtered = this.users;
+        this.filteredUsers = this.filtered;
       })
       .catch(err => {
-        console.log(err)
-      })
+        console.log(err);
+      });
 
-      await this.$store
+    await this.$store
       .dispatch("appUtils/retrieveAllUserImages")
       .then(res => {
-        this.images = this.$store.getters["appUtils/getAllUserImages"]
+        this.images = this.$store.getters["appUtils/getAllUserImages"];
       })
       .catch(err => {
-        console.log(err)
-      })
-
+        console.log(err);
+      });
   }
-}
+};
 </script>
 
 <style scoped>
@@ -196,11 +220,12 @@ h1 {
   letter-spacing: 0.5em;
   width: fit-content;
   color: #ffffff;
-  font-family: 'Raleway',sans-serif; 
-  font-size: 62px; font-weight: 800; 
-  line-height: 72px; 
-  margin: 0 0 24px; 
-  text-align: center; 
+  font-family: "Raleway", sans-serif;
+  font-size: 62px;
+  font-weight: 800;
+  line-height: 72px;
+  margin: 0 0 24px;
+  text-align: center;
   text-transform: uppercase;
 }
 .q-page {

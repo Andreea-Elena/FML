@@ -77,3 +77,7 @@ export function setAllUsers(state, data) {
   export function setAllUserImages(state, data) {
     state.allUserImages = data
   }
+
+  export function setAllPostImages(state, data) {
+    state.allPostImages = data
+  }

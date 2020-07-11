@@ -54,11 +54,12 @@ router.get("/getimageprofile/:id", getImageProfile);
 router.get("/getimagesprofile",getImagesProfile)
 
 const {
-    createPostImage, getPostImage
+    createPostImage, getPostImage, getImagesPost
 } = require("../controllers/postImageController");
 
 router.post("/addpostimage", createPostImage);
 router.get("/getpostimage/:id", getPostImage);
+router.get("/getimagespost",getImagesPost)
 
 const {
     createMeeting, getMeeting, deleteMeeting, getMeetings,

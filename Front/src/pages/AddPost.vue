@@ -9,32 +9,23 @@
       </q-item>
       <q-form>
         <div class="q-pa-md">
-          <q-select v-model="category1" style="max-width: 200px" label="Choose visibility" :options="categories1"></q-select>
+          <q-select v-model="category1" style="max-width: 200px" label="Choose visibility" v-if="valid()" :options="categories1"></q-select>
+          <q-select v-model="category1" style="max-width: 200px" label="Choose visibility" v-if="!valid()" :options="['General']"></q-select>
           <q-select v-model="category2" style="max-width: 200px" label="Choose category" :options="categories2"></q-select>
           <q-input v-model="title" label="Post Title"></q-input>
-          <q-editor
+          <q-input
             v-model="editor"
-            flat
+            filled
             style="background-color:#42455a"
             class="text-white"
-            :toolbar="[
-              ['bold', 'italic', 'underline'],
-              [
-                {
-                  label: $q.lang.editor.formatting,
-                  icon: $q.iconSet.editor.formatting,
-                  list: 'no-icons',
-                  options: ['p', 'h3', 'h4', 'h5', 'h6', 'code']
-                }
-              ]
-            ]"
+            autogrow
           />
           <div class="q-pa-md">
             <input
               type="file"
               filled
               style="max-width: 300px"
-              accept=".jpg, image/*"
+              accept=".jpg"
               @change="onFileSelected"
             />
           </div>
@@ -82,6 +73,7 @@ export default {
     },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
+      console.log(this.selectedFile)
     },
     async createPost(){
         await PostService.add({
@@ -92,7 +84,6 @@ export default {
           category: this.category2,
           publishedAt: Date.now()
         }).then(async response=> {
-          console.log(response)
           if (this.selectedFile) {
             const fd = new FormData();
             fd.append("image", this.selectedFile);
@@ -100,10 +91,15 @@ export default {
               "idPost",
               response.data.result.id
             );
+
             await PostService.uploadImage(fd);
           }
           alert("Post successfully added!")
           });
+    },
+      valid(){
+      if(this.$store.getters["appUtils/getUserDetails"].promotion)
+      return false
     }
   }
 };

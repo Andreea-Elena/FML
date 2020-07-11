@@ -23,4 +23,5 @@ export default {
     allMeetingImages: null,
     allPostComments: null,
     allUserImages: null,
+    allPostImages: null,
 }

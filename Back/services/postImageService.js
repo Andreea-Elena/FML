@@ -37,7 +37,16 @@ const image={
         }catch(err){
             throw new Error(err);
         }
-    }
+    },
+    
+    getImages: async()=>{
+        try{
+            const images= await Image.findAll();
+            return images;
+        } catch(err){
+            throw new Error(err.message);
+        }
+    },
 }
 
 module.exports=image;

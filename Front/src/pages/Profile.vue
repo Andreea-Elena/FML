@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <body class="profile-page sidebar-collapse">
+    <q-card class="profile-page sidebar-collapse">
       <div class="wrapper">
         <div class="page-header clear-filter" filter-color="orange">
           <div class="page-header-image" data-parallax="true"></div>
@@ -13,15 +13,15 @@
               {{ user.job }} @ {{ user.company }}
             </p>
             <div class="content">
-              <div class="social-description">
+              <div class="social-description" v-if="user.promotion">
                 <h2>{{ user.seria }}</h2>
                 <p>Series</p>
               </div>
-              <div class="social-description">
+              <div class="social-description" v-if="user.promotion">
                 <h2>{{ user.group }}</h2>
                 <p>Group</p>
               </div>
-              <div class="social-description">
+              <div class="social-description" v-if="user.promotion">
                 <h2>{{ user.promotion }}</h2>
                 <p>Promition</p>
               </div>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="section">
-          <div class="container">
+          <div class="column">
             <h3 class="title" v-if="user.email">Contact</h3>
             <div class="description">
               <h5>Email: {{ user.email }}</h5>
@@ -39,17 +39,17 @@
               </a>
             </div>
           </div>
-        </div>
-        <div class="section">
-          <div class="container">
+
+            <div class="column">
             <h3 class="title" v-if="user.profile">About me</h3>
             <h5 class="description">
               {{ user.profile }}
             </h5>
           </div>
+
         </div>
       </div>
-    </body>
+    </q-card>
   </q-page>
 </template>
 
@@ -218,12 +218,31 @@ p {
   color: #9a9a9a;
 }
 
-body {
+.q-card {
   color: #2c2c2c;
   font-size: 14px;
   font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
+    height: 20%;
+  width: fit-content;
+  text-align: center;
+  position: relative;
+  direction: column;
+  margin-top: 2%;
+  border-radius:15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
 }
+
+.q-page {
+  justify-content: center;
+  display: flex;
+  margin: 0 auto;
+  direction: column;
+  width: 100%;
+  height: 100%;
+}
+
 
 img {
   max-width: 100%;
@@ -301,9 +320,20 @@ img {
 }
 
 .section {
-  padding: 50px 0;
+  padding: 0px;
   position: relative;
   background: #ffffff;
+
+}
+
+.section:after{
+  
+}
+
+.column{
+    float: left;
+  width: 50%;
+  padding: 10px
 }
 
 .page-header {

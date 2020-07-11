@@ -4,31 +4,23 @@
       <div class="projcard-container">
         <div class="projcard projcard-grey">
           <div class="projcard-innerbox">
-            <img
-              class="projcard-img"
-              :src="
-                '\\statics\\posts\\picture-' +
-                  this.$route.params.id +
-                  '-' +
-                  this.$route.params.idUser +
-                  '.jpg'
-              "
-              alt="This post contains no picture"
-            />
+            <img class="projcard-img" :src="this.$route.params.photo" alt="" />
             <div class="projcard-textbox">
               <div class="projcard-title">{{ this.$route.params.title }}</div>
-              <div class="projcard-subtitle">
-                This post belongs to the category
-                {{ this.$route.params.category }}
-              </div>
+              <a
+                class="projcard-subtitle"
+                @click="redirectToProfile(this.$route.params.idUser)"
+              >
+                by {{ getUser(this.$route.params.idUser) }}
+              </a>
               <div class="projcard-bar"></div>
               <div class="projcard-description">
                 {{ this.$route.params.content }}
               </div>
               <div class="projcard-tagbox">
-                <span class="projcard-tag">{{
-                  this.$route.params.category
-                }}</span>
+                  <span class="projcard-tag">{{ this.$route.params.category }}</span>
+                  <span class="projcard-tag">{{ this.$route.params.visibility }}</span>
+                  <span class="projcard-tag">{{ this.$route.params.date | filter }}</span>
               </div>
             </div>
           </div>
@@ -47,7 +39,7 @@
           class="card-request row"
         >
           <q-card-section class="col-6">
-            <div class="text-subtitle1">Content: {{ comment.content }}</div>
+            <div class="text-subtitle1">User says: {{ comment.content }}</div>
             <div class="text-subtitle1">
               Date: {{ comment.publishedAt | filter }}
             </div>
@@ -70,7 +62,8 @@ export default {
         title: null,
         idPost: null,
         publishedAt: null
-      }
+      },
+      users: []
     };
   },
   methods: {
@@ -105,6 +98,10 @@ export default {
             color: "negative"
           });
         });
+    },
+    getUser(id) {
+      const user = this.users.filter(item => item.id === id);
+      if (user[0]) return user[0].firstName + " " + user[0].lastName;
     }
   },
   created: function() {
@@ -112,6 +109,15 @@ export default {
       .dispatch("appUtils/retrievePostComments", this.$route.params.id)
       .then(res => {
         this.comments = this.$store.getters["appUtils/getAllPostComments"];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    this.$store
+      .dispatch("appUtils/retrieveAllUsers")
+      .then(res => {
+        this.users = this.$store.getters["appUtils/getAllUsers"];
       })
       .catch(err => {
         console.log(err);
@@ -188,6 +194,7 @@ export default {
 
 .projcard-container {
   margin-top: 50px;
+  height: auto;
 }
 
 /* Actual Code: */

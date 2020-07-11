@@ -8,7 +8,7 @@
           <q-select
             v-model="meeting.promotion"
             validate-on-blur
-            :options="promotions"
+            :options="option"
             label="Promotion"
             ref="promotion"
             :rules="[val => !!val || 'Field is required']"
@@ -46,8 +46,8 @@ export default {
         date: "",
         promotion: ""
       },
-      promotions: ["2017", "2018", "2019", "2020"],
       success: false,
+      option: []
     };
   },
   methods: {
@@ -69,6 +69,9 @@ export default {
           });
       }
     }
+  },
+  created(){    
+    this.option.push(this.$store.getters["appUtils/getUserDetails"].promotion)
   }
 };
 </script>

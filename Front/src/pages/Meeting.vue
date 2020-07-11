@@ -58,7 +58,7 @@ export default {
       this.selectedFile = event.target.files;
     },
     async addImages() {
-      for (var i = 0; i < this.selectedFile.length; i++) {
+      for (var i = 0; i <= this.selectedFile.length; i++) {
         const fd = new FormData();
         this.meetingImage.photo = this.selectedFile[i];
         this.meetingImage.idMeeting = this.$route.params.idMeeting;

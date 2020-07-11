@@ -92,7 +92,7 @@
                   :rules="[isValidFacebook]"
                 >
                 </q-input>
-                <q-input filled v-model="group" label="Group" />
+                <q-input filled v-model="group" label="Group" v-if="valid()" />
 
                 <div class="q-md" style="max-width: 250px">
                   <q-select
@@ -100,6 +100,7 @@
                     validate-on-blur
                     :options="serii"
                     label="Series"
+                    v-if="valid()"
                   />
                 </div>
                 <div class="q-md" style="max-width: 250px">
@@ -108,6 +109,7 @@
                     validate-on-blur
                     :options="specialisations"
                     label="Specialisation"
+                    v-if="valid()"
                   />
                 </div>
                 <div class="q-md" style="max-width: 250px">
@@ -116,6 +118,7 @@
                     validate-on-blur
                     :options="promotions"
                     label="Promotion"
+                    v-if="valid()"
                   />
                 </div>
 
@@ -297,6 +300,7 @@ export default {
             .catch(error => {
               console.log(error.message);
             });
+            this.$router.push({name:"profile"});
         } catch (error) {
           console.log(error);
         }
@@ -338,6 +342,10 @@ export default {
     },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
+    },
+    valid(){
+      if(this.$store.getters["appUtils/getUserDetails"].promotion)
+      return false
     }
   },
   created(){

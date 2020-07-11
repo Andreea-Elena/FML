@@ -8,6 +8,7 @@
           style="background-color:#42455a"
           @click="redirectToMeeting(meeting)"
           class="row"
+          v-if="valid(meeting.promotion)"
         >
           <q-card-section class="col-8">
             <div v-if= meeting.date class="text-subtitle1">Date: {{meeting.date | filter}}</div>
@@ -45,6 +46,10 @@ export default {
        this.$router.push({
         name: 'addMeeting',
       })
+    },
+      valid(promotion) {
+      if (this.$store.getters["appUtils/getUserDetails"].promotion===promotion)
+        return true;
     }
   },
   created: function() {
