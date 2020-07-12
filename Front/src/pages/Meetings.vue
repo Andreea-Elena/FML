@@ -2,21 +2,22 @@
   <q-page>
     <div id="content">
       <h1>Events</h1>
-       <q-btn @click="addMeeting">Add Event</q-btn>
+      <q-btn @click="addMeeting">Add Event</q-btn>
       <div v-for="meeting in totalMeetings" :key="meeting.id" id="list-content">
         <q-card
           style="background-color:#42455a"
-          @click="redirectToMeeting(meeting)"
           class="row"
           v-if="valid(meeting.promotion)"
         >
           <q-card-section class="col-8">
-            <div v-if= meeting.date class="text-subtitle1">Date: {{meeting.date | filter}}</div>
+            <div class="text-subtitle2">Promotion: {{ meeting.promotion }}</div>
+            <div v-if="meeting.date" class="text-subtitle1">
+              Date: {{ meeting.date | filter }}
+            </div>
           </q-card-section>
           <q-card-section class="col">
-            <div
-              class="text-subtitle2"
-            >Promotion: {{meeting.promotion}}</div>
+            <q-btn @click="deleteMeeting(meeting.id)">Delete</q-btn>
+            <q-btn @click="redirectToMeeting(meeting)">See images</q-btn>
           </q-card-section>
         </q-card>
       </div>
@@ -24,55 +25,74 @@
   </q-page>
 </template>
 
-
 <script>
 export default {
-  name: 'MyMeetings',
+  name: "MyMeetings",
   data: function() {
     return {
-      totalMeetings: ''
-    }
+      totalMeetings: ""
+    };
   },
   methods: {
     redirectToMeeting(meeting) {
-      console.log(meeting)
-     // this.$store.dispatch('selectRequest', request)
+      console.log(meeting);
+      // this.$store.dispatch('selectRequest', request)
       this.$router.push({
-        name: 'meeting',
+        name: "meeting",
         params: { idMeeting: meeting.id }
-      })
+      });
     },
     addMeeting() {
-       this.$router.push({
-        name: 'addMeeting',
-      })
+      this.$router.push({
+        name: "addMeeting"
+      });
     },
-      valid(promotion) {
-      if (this.$store.getters["appUtils/getUserDetails"].promotion===promotion)
+    valid(promotion) {
+      if (!this.$store.getters["appUtils/getUserDetails"].promotion)
         return true;
+      if (
+        this.$store.getters["appUtils/getUserDetails"].promotion === promotion
+      )
+        return true;
+      return false;
+    },
+     async deleteMeeting(id){
+        await this.$store.dispatch(
+          "appUtils/deleteMeeting",
+          id
+        );
+
+        await this.$store
+      .dispatch("appUtils/retrieveAllMeetings")
+      .then(res => {
+        const category = this.$store.getters["appUtils/getAllMeetings"];
+        this.totalMeetings = category;
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
     }
   },
   created: function() {
     this.$store
       .dispatch("appUtils/retrieveAllMeetings")
       .then(res => {
-        const category = this.$store.getters["appUtils/getAllMeetings"]
-        this.totalMeetings = category
+        const category = this.$store.getters["appUtils/getAllMeetings"];
+        this.totalMeetings = category;
       })
       .catch(error => {
-        console.log(error.message)
-      })
+        console.log(error.message);
+      });
   },
   filters: {
-  filter: function (value) {
-    if (!value) return ''
-    value = value.toString()
-    return value.substr(0,10)
+    filter: function(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.substr(0, 10);
+    }
   }
-}
-}
+};
 </script>
-
 
 <style scoped>
 .text-h6 {
@@ -104,7 +124,7 @@ export default {
   align-items: center;
 }
 h1 {
-   position: relative;
+  position: relative;
   font-size: calc(
     14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))
   ) !important;
@@ -113,11 +133,12 @@ h1 {
   letter-spacing: 0.5em;
   width: fit-content;
   color: #ffffff;
-  font-family: 'Raleway',sans-serif; 
-  font-size: 62px; font-weight: 800; 
-  line-height: 72px; 
-  margin: 0 0 24px; 
-  text-align: center; 
+  font-family: "Raleway", sans-serif;
+  font-size: 62px;
+  font-weight: 800;
+  line-height: 72px;
+  margin: 0 0 24px;
+  text-align: center;
   text-transform: uppercase;
 }
 .q-page {
@@ -163,5 +184,4 @@ h1 {
     margin-bottom: 1%;
   }
 }
-
 </style>

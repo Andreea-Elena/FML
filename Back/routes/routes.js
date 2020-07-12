@@ -71,11 +71,12 @@ router.post("/meeting/delete/:id", deleteMeeting);
 router.get("/getAllMeetings",getMeetings)
 
 const {
-    createMeetingImage, getMeetingImages
+    createMeetingImage, getMeetingImages, deleteMeetingImage
 } = require("../controllers/meetingImageController");
 
 router.post("/addmeetingimage", createMeetingImage);
 router.get("/getmeetingimages/:id", getMeetingImages);
+router.post("/meetingimage/delete/:id", deleteMeetingImage);
 
 
 module.exports = router;

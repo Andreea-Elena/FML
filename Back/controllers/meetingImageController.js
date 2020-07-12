@@ -53,7 +53,16 @@ const getMeetingImages = async (req, res) => {
   }
 };
 
+const deleteMeetingImage = async (req, res) => {
+  const id = req.params.id;
+  if (id) {
+    const result = await ImageService.delete(id);
+    res.status(200).send(result);
+  }
+};
+
 module.exports = {
   createMeetingImage,
   getMeetingImages,
+  deleteMeetingImage
 };

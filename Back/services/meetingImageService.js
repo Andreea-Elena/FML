@@ -38,7 +38,19 @@ const image={
         }catch(err){
             throw new Error(err);
         }
-    }
+    },
+    
+    delete: async(id1)=>{
+        try{
+            const user= await MeetingImage.destroy({
+                where:{
+                    id: id1
+                }
+            })
+        }catch(err){
+            throw new Error(err);
+        }
+    },
 }
 
 module.exports=image;

@@ -23,6 +23,7 @@
           id="list-content"
         >
                   <a :href="meetingImage.photo" download>Download</a>
+                  <a @click="deleteImg(meetingImage.id)" > Delete</a>
           <q-card
             style="position: relative; width: 300px; height: 300px; overflow: hidden; background-color:black"
           >
@@ -58,7 +59,7 @@ export default {
       this.selectedFile = event.target.files;
     },
     async addImages() {
-      for (var i = 0; i <= this.selectedFile.length; i++) {
+      for (var i = 0; i < this.selectedFile.length; i++) {
         const fd = new FormData();
         this.meetingImage.photo = this.selectedFile[i];
         this.meetingImage.idMeeting = this.$route.params.idMeeting;
@@ -74,14 +75,31 @@ export default {
         )
         .then(res => {
           this.all = this.$store.getters["appUtils/getAllMeetingImages"];
-          console.log(this.all);
           this.allMeetingImages = this.all;
         })
         .catch(err => {
           console.log(err);
         });
-      this.allMeetingImages = this.all;
     },
+    async deleteImg(id){
+        await this.$store.dispatch(
+          "appUtils/deleteMeetingImage",
+          id
+        );
+
+         await this.$store
+        .dispatch(
+          "appUtils/retrieveMeetingImages",
+          this.$route.params.idMeeting
+        )
+        .then(res => {
+          this.all = this.$store.getters["appUtils/getAllMeetingImages"];
+          this.allMeetingImages = this.all;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   created: function() {
     this.$store
@@ -132,11 +150,16 @@ h1 {
   height: 100%;
 }
 
+.q-intersection{
+  height:100%;
+  width: 300px;
+}
+
 .example-item {
-  height: 290px;
-  width: 290px;
-  max-height: 290px;
-  max-width: 290px;
+  height: 500px;
+  width: 500px;
+  max-height: 500px;
+  max-width: 500px;
 }
 #content {
   width: 100%;

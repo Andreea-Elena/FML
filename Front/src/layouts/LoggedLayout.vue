@@ -16,6 +16,7 @@
       side="left"
       style="margin-top=100px"
       v-if="loggedIn"
+      
     >
       <q-scroll-area class="fit" style="background-color:#42455a">
         <q-list

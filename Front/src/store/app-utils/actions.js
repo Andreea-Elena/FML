@@ -287,3 +287,55 @@ export function retrieveAllPostImages(context){
       })
   })
 }
+
+export function deleteMeetingImage(context, id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('http://localhost:8080/api//meetingimage/delete/'+id)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export function deleteMeeting(context, id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('http://localhost:8080/api//meeting/delete/'+id)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export function deletePost(context, id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('http://localhost:8080/api//post/delete/'+id)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}
+
+export function updatePost(context, post) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put('http://localhost:8080/api//post/update/'+post.id,post)
+      .then(response => {
+        resolve(response)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
+}

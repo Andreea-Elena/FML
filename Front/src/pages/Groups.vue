@@ -143,21 +143,23 @@ export default {
               .includes(this.search.toLowerCase())
           )
           .sort((a, b) => {
-            if (a.firstName.localeCompare(b.firstName) === 0) {
-              return a.lastName.localeCompare(b.lastName);
-            } else return a.firstName.localeCompare(b.firstName);
+              if(a.firstName.localeCompare(b.firstName)){
+                return 1
+              }
+              else return -1
           });
       } else this.filtered = this.filteredUsers;
     },
     getImage(id) {
       const image = this.images.filter(item => item.idUser === id);
       if (image.length > 0) {
-        return image[0].photo;
+        return image.slice().reverse()[0].photo;
       } else return "..\\statics\\users\\default-profile.jpg";
     },
     valid() {
       if (this.$store.getters["appUtils/getUserDetails"].promotion)
-        return false;
+        return true
+        return false
     }
   },
   created: async function() {

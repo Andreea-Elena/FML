@@ -22,7 +22,6 @@
             <q-tab-panel
               name="edit"
               class="text-white"
-              style="background-color:#42455a"
             >
               <q-form
                 class="q-pa-md"
@@ -150,7 +149,6 @@
             <q-tab-panel
               name="change"
               class="text-white"
-              style="background-color:#42455a"
             >
               <q-form>
                 <q-input
@@ -345,6 +343,7 @@ export default {
     },
     valid(){
       if(this.$store.getters["appUtils/getUserDetails"].promotion)
+        return true
       return false
     }
   },

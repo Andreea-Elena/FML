@@ -6,7 +6,7 @@
           <div class="page-header-image" data-parallax="true"></div>
           <div class="container">
             <div class="photo-container">
-              <img :src="user.imgSrc" alt="" />
+              <q-img :src="user.imgSrc" alt="" style="width:200px; height:200px"/>
             </div>
             <h3 class="title">{{ user.name }}</h3>
             <p class="category" v-if="user.job">
@@ -117,7 +117,7 @@ export default {
 
       const image = this.images.filter(item => item.idUser === user.id);
       if (image.length > 0){
-      this.user.imgSrc = image[0].photo;
+      this.user.imgSrc = image.slice().reverse()[0].photo;
       }else this.user.imgSrc="..\\statics\\users\\default-profile.jpg"
 
       this.user.name = user.firstName + " " + user.lastName;
@@ -249,17 +249,14 @@ img {
   border-radius: 1px;
 }
 
-.img-raised {
-  box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.3);
-}
 
 .profile-page .page-header {
   min-height: 550px;
 }
 
 .profile-page .photo-container {
-  width: 123px;
-  height: 123px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto;
@@ -326,9 +323,6 @@ img {
 
 }
 
-.section:after{
-  
-}
 
 .column{
     float: left;

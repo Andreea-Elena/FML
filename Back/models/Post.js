@@ -5,7 +5,11 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: DataTypes.DATE,
         publishedAt: DataTypes.DATE,
         title: DataTypes.STRING,
-        content: DataTypes.STRING,
+        content:{ type:DataTypes.STRING,
+            validate: {
+                len: [1, 100000]
+              }
+        },
         idUser: DataTypes.INTEGER,
         visibility: DataTypes.STRING,
         category: DataTypes.STRING

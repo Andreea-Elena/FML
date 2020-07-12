@@ -20,7 +20,7 @@
         </q-select>
       </div>
 
-      <div v-for="post in filtered" :key="post.id" id="list-content">
+      <div v-for="post in filtered.slice().reverse()" :key="post.id" id="list-content">
         <div
           class="projcard-container"
           @click="redirectToPost(post)"
@@ -64,7 +64,7 @@ export default {
       filtered: [],
       option: "General",
       filteredPosts: [],
-      options: ["Out of topic", "Jobs", "Academic", "Hobbies"],
+      options: ["Out of topic", "Jobs", "Academic", "Hobbies","General"],
       posts: [],
       images: [],
       image: null,
@@ -82,7 +82,7 @@ export default {
         params: {
           id: user.id,
           content: user.content,
-          date: user.publishedAt,
+          publishedAt: user.publishedAt,
           category: user.category,
           idUser: user.idUser,
           title: user.title,
@@ -98,8 +98,15 @@ export default {
       });
     },
     onToggleOption() {
-      this.filtered = this.posts.filter(item => item.category === this.option);
-      this.filteredUsers = this.filtered;
+      if(this.option!='General')
+      {this.filtered = this.posts.filter(item => item.category === this.option);
+      this.filteredPosts = this.filtered;}
+      else{
+         this.posts = this.$store.getters["appUtils/getAllPosts"];
+        this.filtered = this.posts;
+         this.filteredPosts = this.filtered;
+      }
+
     },
     onFilter() {
       if (this.search !== "") {
@@ -109,17 +116,13 @@ export default {
               .toLowerCase()
               .includes(this.search.toLowerCase())
           )
-          .sort((a, b) => {
-            if (a.publishedAt.localeCompare(b.publishedAt) < 0) {
-              return b;
-            } else return a;
-          });
+          .sort((a, b) => {a.date - b.date});
       } else this.filtered = this.filteredUsers;
     },
     getImage(id) {
       const image = this.images.filter(item => item.idPost === id);
       if (image.length > 0) {
-        return image[0].photo;
+        return image.slice().reverse()[0].photo;
       } else return "..\\statics\\posts\\default-post.jpg";
     },
     getUser(id) {
@@ -131,9 +134,10 @@ export default {
       if (user[0]) {
         if(post.visibility==='General')
         return true;
-        if ((user[0].promotion === this.$store.getters["appUtils/getUserDetails"].promotion))
-        if((post.visibility.includes('Series') && user[0].seria.split(" ") == this.$store.getters["appUtils/getUserDetails"].seria)
-        || ((post.visibility.includes('Group') && user[0].group.split(" ") == this.$store.getters["appUtils/getUserDetails"].group)))
+        if ((user[0].promotion == this.$store.getters["appUtils/getUserDetails"].promotion))
+        if((post.visibility.includes('Series') && user[0].seria == this.$store.getters["appUtils/getUserDetails"].seria)
+        || ((post.visibility.includes('Group') && user[0].group == this.$store.getters["appUtils/getUserDetails"].group))
+        || user[0].promotion == this.$store.getters["appUtils/getUserDetails"].promotion)
           return true;
       }
       return false;
